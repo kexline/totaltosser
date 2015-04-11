@@ -93,12 +93,13 @@ function scene:create(event)
 	---------------Testing purposes only-----------------------------------------------
 	---- Generates movable prototype items
 	--
-
-	function createTrash(i)
-		local trash = Trash:new();
-		trash:spawn(30+i*59, i*5+yy*1.5);
-		item[i] = trash;
-	end
+    function createTrash(i)
+        local trash = Trash:new();
+        local a = math.random(50, 670)
+        local b = math.random (350, 1100)
+        trash:spawn(a, b);
+        items[i]=trash;
+    end
 
 	 for i=0, 9 do
 	 	createTrash(i);
