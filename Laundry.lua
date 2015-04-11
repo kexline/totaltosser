@@ -38,16 +38,39 @@ function Laundry:spawn(xPos, yPos)
 	self.shape.pp = self;
 
 	self.shape.tag = "laundry";
-	physics.addBody(self.shape, "dynamic", {filter=CollisionFilters.laundry});
+	-- physics.addBody(self.shape, "dynamic", {filter=CollisionFilters.laundry});
+	physics.addBody(self.shape, "dynamic", {bounce = 0.3, shape = {-32, 25,  20, -25,  30, 5,  -30, -10}, filter=CollisionFilters.toy});
+    self.shape:toBack();
 
 	function itemMove(event)
-	    	local x = -(event.x - event.target.x);
-	 		local y = -(event.y - event.target.y);
+	   if event.phase == "began" then
+	   		-- cancel any previous movement
+	   		self.shape:setLinearVelocity( 0, 0 );
+	   		self.shape.angularVelocity=0;
 
-	    	event.target:applyForce(x, y, event.target.x, event.target.y);
+			self.shape.markX = self.shape.x;
+			self.shape.markY = self.shape.y;
+			print("BEGAN: ",event.xStart,event.yStart) -- checking to make sure xStart and yStart don't change
+
+		elseif event.phase == "moved" then
+			self.updated=true;
+
+			local x = (event.x - event.xStart) + self.shape.markX;
+			local y = (event.y - event.yStart) + self.shape.markY;
+
+			self.shape.x = x;
+			self.shape.y = y;
+			
+		elseif event.phase == "ended" then
+			local x = (event.x - event.xStart);
+			local y = (event.y - event.yStart);
+			
+			print(event.xStart,event.x,event.yStart,event.y,self.shape.markX,self.shape.markY)
+			event.target:applyForce(x, y, event.target.x+20, event.target.y+20);
+		end
 	end
 
-	self.shape:addEventListener("tap", itemMove);
+	self.shape:addEventListener("touch", itemMove);
 end
 
 

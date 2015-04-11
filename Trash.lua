@@ -42,50 +42,35 @@ function Trash:spawn(xPos, yPos)
 	self.shape:setFillColor(1,1,1);
 	self.shape.tag = "trash";
 	-- physics.addBody(self.shape, "dynamic", {filter=CollisionFilters.trash});
-	physics.addBody(self.shape, "dynamic"); 
+	physics.addBody(self.shape, "dynamic", {bounce = 0.3, shape = {-32, 25,  20, -25,  30, 5,  -30, -10}, filter=CollisionFilters.trash});
+    self.shape:toBack()
+
 
 	function itemMove(event)
-	    	--local x = -(event.x - event.target.x);
-	 		--local y = -(event.y - event.target.y);
+	   if event.phase == "began" then
+	   		-- cancel any previous movement
+	   		self.shape:setLinearVelocity( 0, 0 );
+	   		self.shape.angularVelocity=0;
 
-	    	--event.target:applyForce(x, y, event.target.x, event.target.y);
-   	
-	    if event.phase == "began" then
 			self.shape.markX = self.shape.x;
 			self.shape.markY = self.shape.y;
-			event.target:setLinearVelocity(0,0);
-			print("began: markX=%d, markY=%d", markX, markY)
-
-
+			print("BEGAN: ",event.xStart,event.yStart) -- checking to make sure xStart and yStart don't change
 
 		elseif event.phase == "moved" then
-			-- drag the item
 			self.updated=true;
-
-			-- markX = markX or self.shape.x;
-			-- markY = markX or self.shape.y;
 
 			local x = (event.x - event.xStart) + self.shape.markX;
 			local y = (event.y - event.yStart) + self.shape.markY;
 
 			self.shape.x = x;
 			self.shape.y = y;
-			print("Moved: x=%d, y=%d", x, y)
-
-
+			
 		elseif event.phase == "ended" then
-		--  poke the item
+			local x = (event.x - event.xStart);
+			local y = (event.y - event.yStart);
 
-		-- 	self.updated=true;
-		--local vector={x=(event.x - self.shape.markX),y=(event.y - self.shape.markY)}
-		local vector={x=(self.shape.x - self.shape.markX),y=(self.shape.y - self.shape.markY)}
-
-		-- 	local x = (event.x - event.xStart) + self.shape.markX;
-		-- 	local y = (event.y - event.yStart) + self.shape.markY;
-
-		  -- event.target:applyForce(x, y, event.target.x-20, event.target.y-20);
-		  print(string.format("applyforce %d %d %d %d", vector.x,vector.y, self.shape.x, self.shape.y))
-		  event.target:applyForce(vector.x,vector.y, self.shape.x, self.shape.y)
+			print(event.xStart,event.x,event.yStart,event.y,self.shape.markX,self.shape.markY)
+			event.target:applyForce(x, y, event.target.x+20, event.target.y+20);
 		end
 	end
 
