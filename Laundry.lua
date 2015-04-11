@@ -39,7 +39,7 @@ function Laundry:spawn(xPos, yPos)
 
 	self.shape.tag = "laundry";
 	-- physics.addBody(self.shape, "dynamic", {filter=CollisionFilters.laundry});
-	physics.addBody(self.shape, "dynamic", {bounce = 0.3, shape = {-32, 25,  20, -25,  30, 5,  -30, -10}, filter=CollisionFilters.toy});
+	physics.addBody(self.shape, "dynamic", {bounce = 0.3, shape = {-32, 25,  20, -25,  30, 5,  -30, -10}, filter=CollisionFilters.laundry});
     self.shape:toBack();
 
 	function itemMove(event)
