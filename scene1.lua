@@ -98,7 +98,7 @@ function scene:create(event)
         local a = math.random(50, 670)
         local b = math.random (350, 1100)
         trash:spawn(a, b);
-        items[i]=trash;
+        item[i]=trash;
     end
 
 	 for i=0, 9 do
