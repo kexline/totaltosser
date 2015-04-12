@@ -90,6 +90,12 @@ function scene:create(event)
 	timeN:setFillColor(0,0,0)
 	
 
+	local bg = display.newImage ("./images/kitchen_v.png", ".",0,0, 1);
+	bg.anchorX=0; bg.anchorY=0;
+	--bg:rotate(-90);
+	bg:scale(math.min(1,ww/1080,1080/ww), math.min(1,hh/1920, 1920/hh));
+	sceneGroup:insert(bg);
+
 	---------------Testing purposes only-----------------------------------------------
 	---- Generates movable prototype items
 	--
@@ -133,6 +139,8 @@ function scene:show (event)
 	local phase = event.phase
 
 	if (phase == "will") then
+
+
 
 	elseif (phase == "did") then
 
