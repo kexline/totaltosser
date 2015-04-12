@@ -4,11 +4,9 @@
 -- Approach:
 
 -----------------------------------Scene 3-----------------------------------
-local CollisionFilters = require ("CollisionFilters");
+
 local composer = require("composer")
-
 local scene = composer.newScene()
-
 local physics = require("physics")
 local widget = require("widget")
 
@@ -19,10 +17,6 @@ physics.setGravity(0,0)
 local Bin = require("Bin")
 local Basket = require("Basket")
 local Box = require("Box")
-
-local Trash = require("Trash");
-local Laundry = require("Laundry");
-local Toy = require("Toy");
 ----------------------------------------------------------------------------
 
 -------------------Global Variables-----------------------------------------
@@ -102,34 +96,6 @@ function scene:create(event)
 	---------------Testing purposes only-----------------------------------------------
 	---- Generates movable prototype items
 	--
-
-	function createTrash(i)
-		local trash = Trash:new();
-		trash:spawn(30+i*52, i*5+380);
-	end
-
-	for i=0, 9 do
-		createTrash(i);
-	end
-
-	function createLaundry(i)
-		local laundry = Laundry:new();
-		laundry:spawn(50*i+45, i*7+325);
-	end
-
-	for i=0, 9 do
-		createLaundry(i);
-	end
-
-	function createToy(i)
-		local toy = Toy:new();
-		toy:spawn(70*i+32, i*6+300);
-	end
-
-	for i=0, 9 do
-		createToy(i);
-	end
-
 	--[[ 	function itemMove(event)
 	 	if (event.phase == "began") then		
 	 		event.target.markX = event.target.x
@@ -169,24 +135,6 @@ function scene:create(event)
 	 end
 	------------------------------------------------------------------------------------
 	]]
-
-	-----------------------------------Build Walls--------------------------------------
-	------------------------------------------------------------------------------------
-
-	local left = display.newRect(0,0,1, display.contentHeight);	--our left screen border
-	local right = display.newRect(display.contentWidth,0,1,display.contentHeight);	--our right screen border
-	local bottom = display.newRect(0,display.contentHeight-80, display.contentWidth, 1);	--our bottom screen border
-	local top = display.newRect(0,80,display.contentWidth, 1);	--our top screen border
-
-	left.anchorX = 0;left.anchorY = 0;	--anchor the left border
-	right.anchorX = 0;right.anchorY = 0;	--anchor the right border
-	bottom.anchorX = 0;bottom.anchorY = 0;	--anchor the bottom border
-	top.anchorX = 0;top.anchorY = 0;	--anchor the top border
-
-	physics.addBody( bottom, "static", {filter=CollisionFilters.walls});	--make the bottom border static
-	physics.addBody( left, "static", {filter=CollisionFilters.walls});	--make the left border static
-	physics.addBody( right, "static", {filter=CollisionFilters.walls});	--make the right border static
-	physics.addBody( top, "static", {filter=CollisionFilters.walls});	--make the top border static
 
 end
 
