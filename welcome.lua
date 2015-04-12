@@ -161,7 +161,7 @@ function scene:show (event)
 
 		--timer.performWithDelay( delay, listener [, iterations] )
 		timerRef=timer.performWithDelay(200,strewTrash,500)
-		timerRef2=timer.performWithDelay(205*500,raiseText,1)
+		timerRef2=timer.performWithDelay(215*500,raiseText,1)
 	end
 end
 
