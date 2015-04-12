@@ -77,5 +77,20 @@ function Trash:spawn(xPos, yPos)
 	self.shape:addEventListener("touch", itemMove);
 end
 
+function Trash:spawnStatic(xPos, yPos)
+	r = math.random(1,5) -- Generate a random number for a random sprite
+	self.shape = display.newImage (trashImages, sheetInfo:getFrameIndex(image[r]));
+	--display.newImage(trashImages, sheetInfo:getFrameIndex("I_FishTail"))
+	self.shape.x = xPos
+	self.shape.y = yPos
+	self.shape.xScale = 2.5
+	self.shape.yScale = 2.5
+
+	self.shape.pp = self;
+
+	self.shape:setFillColor(1,1,1);
+    self.shape:toBack()
+end
+
 
 return Trash;
