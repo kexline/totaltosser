@@ -5,4 +5,4 @@
 
 local composer = require("composer")
 
-composer.gotoScene("scene1")
+composer.gotoScene("welcome")
