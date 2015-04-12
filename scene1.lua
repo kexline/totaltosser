@@ -27,7 +27,6 @@ local Walls = require("Walls");
  local item = {} -- Used for testing purposes
  local itemMove -- Used for testing purposes
 
-local items = {} -- ?? 
 
 local tItems = 30 -- Total items generated
 local accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
