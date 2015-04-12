@@ -28,7 +28,9 @@ local btnOptions = {
 	{ x = 0, y =756, width = 179, height = 65},  -- credits huge
 	{ x = 322, y =756, width = 179, height = 65},  -- credits huge light
 	{ x = 0, y =239, width = 138, height = 65}, -- Home
-	{ x = 322, y = 239, width = 138, height = 65} -- Home light
+	{ x = 322, y = 239, width = 138, height = 65}, -- Home light
+	{ x = 0, y =85, width = 183, height = 68},  -- continue huge
+	{ x = 322, y =85, width = 183, height = 68},  -- continue huge light
 }}
 
 local btnSheet = graphics.newImageSheet( "./images/btnSheet_l.png", btnOptions );

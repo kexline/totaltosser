@@ -85,6 +85,8 @@ local btnOptions = { frames = {
 	{ x = 322, y =532, width = 179, height = 65},  -- tutorial huge light
 	{ x = 0, y =756, width = 179, height = 65},  -- credits huge
 	{ x = 322, y =756, width = 179, height = 65},  -- credits huge light
+	{ x = 0, y =239, width = 138, height = 65}, -- Home
+	{ x = 322, y = 239, width = 138, height = 65}, -- Home light
 	{ x = 0, y =85, width = 183, height = 68},  -- continue huge
 	{ x = 322, y =85, width = 183, height = 68},  -- continue huge light
 
