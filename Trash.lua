@@ -32,10 +32,14 @@ function Trash:spawn(xPos, yPos)
 	r = math.random(1,5) -- Generate a random number for a random sprite
 	self.shape = display.newImage (trashImages, sheetInfo:getFrameIndex(image[r]));
 	--display.newImage(trashImages, sheetInfo:getFrameIndex("I_FishTail"))
+
 	self.shape.x = xPos
 	self.shape.y = yPos
-	self.shape.xScale = 2.5
+
+	if math.random(0,1)==0 then j=-1; end
+	self.shape.xScale = j*2.5;  
 	self.shape.yScale = 2.5
+	self.shape:rotate(math.random(-45,45));
 
 	self.shape.pp = self;
 
@@ -81,10 +85,13 @@ function Trash:spawnStatic(xPos, yPos)
 	r = math.random(1,5) -- Generate a random number for a random sprite
 	self.shape = display.newImage (trashImages, sheetInfo:getFrameIndex(image[r]));
 	--display.newImage(trashImages, sheetInfo:getFrameIndex("I_FishTail"))
-	self.shape.x = xPos
-	self.shape.y = yPos
-	self.shape.xScale = 2.5
+	self.shape.x = xPos; self.shape.y = yPos; 
+	local j=1;
+
+	if math.random(0,1)==0 then j=-1; end
+	self.shape.xScale = j*2.5;  
 	self.shape.yScale = 2.5
+	self.shape:rotate(math.random(-45,45));
 
 	self.shape.pp = self;
 
