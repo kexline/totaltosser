@@ -36,6 +36,7 @@ function Trash:spawn(xPos, yPos)
 	self.shape.x = xPos
 	self.shape.y = yPos
 
+	local j=1;
 	if math.random(0,1)==0 then j=-1; end
 	self.shape.xScale = j*2.5;  
 	self.shape.yScale = 2.5
