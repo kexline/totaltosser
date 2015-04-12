@@ -55,11 +55,15 @@ function Laundry:spawn(xPos, yPos)
 		elseif event.phase == "moved" then
 			self.updated=true;
 
-			local x = (event.x - event.xStart) + self.shape.markX;
-			local y = (event.y - event.yStart) + self.shape.markY;
+            if (self.shape.markX ~= nil) then
 
-			self.shape.x = x;
-			self.shape.y = y;
+				local x = (event.x - event.xStart) + self.shape.markX;
+				local y = (event.y - event.yStart) + self.shape.markY;
+
+				self.shape.x = x;
+				self.shape.y = y;
+			
+			end
 			
 		elseif event.phase == "ended" then
 			local x = (event.x - event.xStart);
