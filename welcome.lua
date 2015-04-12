@@ -89,21 +89,21 @@ function scene:show (event)
 	--== button listeners ===========================
 
 	local function btnStart1(event)
-		print("In welcome:  gotoScene scene1"); 
+		--print("In welcome:  gotoScene scene1"); 
 		if timerRef then timer.cancel(timerRef); end
 		composer.gotoScene("scene1");
 	end
 
 	local function btnTut(event)
-		print("In welcome:  gotoScene tutorial"); 
+		--print("In welcome:  gotoScene tutorial"); 
 		if timerRef then timer.cancel(timerRef); end
 		composer.gotoScene("tutorial");
 	end
 
 	local function btnCredits(event)
-		print("In welcome:  gotoScene credits"); 
+		--print("In welcome:  gotoScene credits"); 
 		if timerRef then timer.cancel(timerRef); end
-		composer.gotoScene("credits");
+		composer.gotoScene("credit");
 	end
 
 	if phase=="will" then
