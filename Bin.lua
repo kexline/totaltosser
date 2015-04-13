@@ -5,12 +5,30 @@
 
 local CollisionFilters = require ("CollisionFilters");
 
+local Bin = {score = 0, itemCntr = 10}
+
+----------------- Convenience variables -------------------------------------------------
+
+local xx = display.contentCenterX; local ww=display.contentWidth;
+local yy = display.contentCenterY; local hh=display.contentHeight;
+
+----------------- Graphics for Targets --------------------------------------------------
+
+binSize=150;
+
+local binOpts = {
+	frames = {
+	{x=5,   y=5, width=250, height=300}, -- bin 
+	{x=205, y=5, width=100, height=200}, -- basket
+	{x=450, y=5, width=100, height=200} -- basket
+	}}
+
+local binSheet = graphics.newImageSheet("./images/binSheet.png", binOpts); 
+
 -----------------Bin Object - Parent object of Basket and Box----------------------------
 
 -- score: Variable used to update the player's accuracy
 -- itemCntr: Variable that tracks the number of items/number of items for this bin
-
-local Bin = {score = 0, itemCntr = 10}
 
 function Bin:new (o)    --Constructor
   o = o or {}; 
@@ -19,10 +37,13 @@ function Bin:new (o)    --Constructor
   return o;
 end
 
-
 function Bin:spawn()
 
-	self.shape = display.newCircle(display.contentCenterX, 200, 65)
+	-- self.shape = display.newCircle(display.contentCenterX, 200, 65)
+	self.shape = display.newImage(binSheet, 1)
+	self.shape.x=ww*.3; self.shape.y=200;
+	local a=math.min(binSize/250, 250/binSize);
+	self.shape:scale(a,a);
 
 	self.shape.pp = self
 	self.shape.tag = "trash bin"
