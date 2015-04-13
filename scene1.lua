@@ -30,7 +30,7 @@ local Walls = require("Walls");
 local tItems = 30 -- Total items generated
 local accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
 local accuracyN -- Display version of the player's accuracy
-local lvlTime = 6000 -- Amount of time left for this level (number is for
+local lvlTime = 25000 -- Amount of time left for this level (number is for
 					   -- testing purposes)
 local timeLeft = lvlTime;
 local timeN -- Display version of the time left
@@ -54,12 +54,12 @@ local btnOptions = {
 	{ x = 322, y =532, width = 179, height = 65},  -- tutorial huge light
 	{ x = 0, y =756, width = 179, height = 65},  -- 5 credits huge
 	{ x = 322, y =756, width = 179, height = 65},  -- credits huge light
-	{ x = 0, y =239, width = 138, height = 65}, -- 7 Home
-	{ x = 322, y = 239, width = 138, height = 65}, -- Home light
+	{ x = 0, y = 238, width = 139, height = 67}, -- 7 Home
+	{ x = 322, y = 239, width = 139, height = 67}, -- Home light
 	{ x = 0, y =85, width = 183, height = 68},  -- 9 continue huge
 	{ x = 322, y =85, width = 183, height = 68},  -- continue huge light
-	{ x = 0, y =154, width = 137, height = 68},  -- 11 Retry huge
-	{ x = 322, y =154, width = 137, height = 68},  -- Retry huge light
+	{ x = 0, y =156, width = 138, height = 70},  -- 11 Retry huge
+	{ x = 322, y =156, width = 138, height = 70},  -- Retry huge light
 
 }}
 
@@ -252,7 +252,7 @@ function scene:show (event)
 				display.remove(btnNext);
 				btnNext=nil;
 
-				composer.gotoScene("scene1")
+				composer.gotoScene("welcome")
 			end
 
 			local function nextLevel()
@@ -283,11 +283,9 @@ function scene:show (event)
 				x = xx,
 				y = yy,
 				id = "retry",
-				label = "Level 1",
-				labelColor = {default={0,0,0}, over={1,1,1}},
 				sheet = btnSheet,
-				defaultFrame = 12,
-				overFrame = 13,
+				defaultFrame = 11,
+				overFrame = 12,
 				onEvent = restart,
 				}
 				)
@@ -296,10 +294,8 @@ function scene:show (event)
 			btnNew = widget.newButton(
 			{
 				x = xx,
-				y = yy,
+				y = yy+80,
 				id = "home",
-				label = "Home",
-				labelColor = {default={0,0,0}, over={1,1,1}},
 				sheet = btnSheet,
 				defaultFrame = 7,
 				overFrame = 8,
@@ -311,10 +307,8 @@ function scene:show (event)
 			 btnNext = widget.newButton(
 			 {
 			 	x = xx,
-			 	y = yy+100,
+			 	y = yy+160,
 			 	id = "level 2",
-			 	label = "Level 2",
-			 	labelColor = {default={0,0,0}, over={1,1,1}},
 			 	sheet = btnSheet,
 			 	defaultFrame = 9,
 			 	overFrame = 10,
@@ -370,7 +364,6 @@ function scene:show (event)
 			{
 			 	x = xx,
 			 	y = yy+100,
-			 	id = "try again", 
 			 	sheet = btnSheet,
 			 	defaultFrame = 11,
 			 	overFrame = 12,
