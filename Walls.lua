@@ -18,10 +18,13 @@ end
 
 
 function Walls:spawn(xPos, yPos)
-	local left = display.newRect(0,0,1, display.contentHeight);	--our left screen border
-	local right = display.newRect(display.contentWidth,0,1,display.contentHeight);	--our right screen border
-	local bottom = display.newRect(0,display.contentHeight-80, display.contentWidth, 1);	--our bottom screen border
-	local top = display.newRect(0,80,display.contentWidth, 1);	--our top screen border
+	local left = display.newRect(0,0,5, display.contentHeight);	--our left screen border
+	local right = display.newRect(display.contentWidth,0,5,display.contentHeight);	--our right screen border
+	local bottom = display.newRect(0,display.contentHeight-80, display.contentWidth, 5);	--our bottom screen border
+	local top = display.newRect(0,80,display.contentWidth, 5);	--our top screen border
+
+	local mid = display.newRect(0, display.contentHeight-400, display.contentWidth*2, 10);
+	mid:setFillColor(1,1,0);
 
 	left.anchorX = 0;left.anchorY = 0;	--anchor the left border
 	right.anchorX = 0;right.anchorY = 0;	--anchor the right border
