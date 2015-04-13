@@ -19,7 +19,7 @@ end
 
 function Walls:spawn(xPos, yPos)
 	local left = display.newRect(0,0,5, display.contentHeight);	--our left screen border
-	local right = display.newRect(display.contentWidth,0,5,display.contentHeight);	--our right screen border
+	local right = display.newRect(display.contentWidth,5,5,display.contentHeight);	--our right screen border
 	local bottom = display.newRect(0,display.contentHeight-80, display.contentWidth, 5);	--our bottom screen border
 	local top = display.newRect(0,80,display.contentWidth, 5);	--our top screen border
 

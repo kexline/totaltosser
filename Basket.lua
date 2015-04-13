@@ -32,22 +32,27 @@ function Basket:spawn()
 
 		function removeItem(event)
 			if (event.phase == "began") then
+
 				if (event.other.tag == "laundry") then --Correct bin
-					self.score = self.score + 1 --Score increases
-					self.itemCntr = self.itemCntr - 1 --One less item
-					event.other:removeSelf() --Remove the item
-					event.other = nil
+					if (event.other.score ==1) then
+						self.score = self.score + 1 --Score increases
+						self.itemCntr = self.itemCntr - 1 --One less item
+						event.other:removeSelf() --Remove the item
+						event.other = nil
+					else
+						self.itemCntr = self.itemCntr - 1 --One less item
+						event.other:removeSelf() --Remove the item
+						event.other = nil
+				end
 				else --Wrong bin
 					self.itemCntr = self.itemCntr - 1 --One less item
 					event.other:removeSelf() --Remove the item
 					event.other = nil
 				end
 			end
-
 		end
 
 		self.shape:addEventListener("collision", removeItem)
-
 end
 
 
