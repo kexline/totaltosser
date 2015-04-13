@@ -27,14 +27,16 @@ local Walls = require("Walls");
  local items = {} -- Used for testing purposes
  local itemMove -- Used for testing purposes
 
-
 local tItems = 30 -- Total items generated
 local accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
 local accuracyN -- Display version of the player's accuracy
-local timeLeft = 100000 -- Amount of time left for this level (number is for
+local lvlTime = 6000 -- Amount of time left for this level (number is for
 					   -- testing purposes)
+local timeLeft = lvlTime;
 local timeN -- Display version of the time left
 local t1 -- System time when the game begins
+
+local numChildren=10;
 
 local xx = display.contentCenterX; local ww=display.contentWidth;
 local yy = display.contentCenterY; local hh=display.contentHeight;
@@ -173,7 +175,7 @@ function scene:show (event)
 
 	tItems = 10 -- Total items generated
 	accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
-	timeLeft = 100000 -- Amount of time left for this level (number is for
+	timeLeft = lvlTime -- Amount of time left for this level (number is for
 					   -- testing purposes)
 
 	trashBin = Bin:new()
@@ -193,8 +195,8 @@ function scene:show (event)
 		local function nextScene()
 			print("You won!")
 
-			local winBox = display.newRoundedRect(xx, yy, 450, 500,7)
-			winBox:setFillColor(0.65,0.65,0.65)
+			local winBox = display.newRoundedRect(xx, yy, 450, 500,10)
+			winBox:setFillColor(0.65,0.65,0.5)
 			winBox.alpha = 0.7 -- Transparency
 
 			local winText1 = display.newText("You won!", xx, yy-185, native.systemFont, 35)
@@ -283,7 +285,7 @@ function scene:show (event)
 				id = "retry",
 				label = "Level 1",
 				labelColor = {default={0,0,0}, over={1,1,1}},
-				sheet = buttonSheet,
+				sheet = btnSheet,
 				defaultFrame = 12,
 				overFrame = 13,
 				onEvent = restart,
@@ -298,7 +300,7 @@ function scene:show (event)
 				id = "home",
 				label = "Home",
 				labelColor = {default={0,0,0}, over={1,1,1}},
-				sheet = buttonSheet,
+				sheet = btnSheet,
 				defaultFrame = 7,
 				overFrame = 8,
 				onEvent = newGame,
@@ -313,7 +315,7 @@ function scene:show (event)
 			 	id = "level 2",
 			 	label = "Level 2",
 			 	labelColor = {default={0,0,0}, over={1,1,1}},
-			 	sheet = buttonSheet,
+			 	sheet = btnSheet,
 			 	defaultFrame = 9,
 			 	overFrame = 10,
 			 	onEvent = nextLevel,
@@ -327,8 +329,8 @@ function scene:show (event)
 		local function gameOver()
 			print("You ran out of time!")
 
-			local overBox = display.newRoundedRect(xx, yy, 450, 500,7)
-			overBox:setFillColor(0.65,0.65,0.65)
+			local overBox = display.newRoundedRect(xx, yy, 450, 500,10)
+			overBox:setFillColor(0.65,0.65,0.5)
 			overBox.alpha = 0.7 -- Transparency
 
 			local overText1 = display.newText("Game over!", xx, yy-185, native.systemFont, 35)
@@ -367,13 +369,11 @@ function scene:show (event)
 			btnAgain = widget.newButton(
 			{
 			 	x = xx,
-			 	y = yy,
-			 	id = "try again",
-			 	label = "Try again",
-			 	labelColor = {default={0,0,0}, over={1,1,1}},
-			 	sheet = buttonSheet,
-			 	defaultFrame = 1,
-			 	overFrame = 2,
+			 	y = yy+100,
+			 	id = "try again", 
+			 	sheet = btnSheet,
+			 	defaultFrame = 11,
+			 	overFrame = 12,
 			 	onEvent = restart,
 			 	}
 				)
@@ -394,7 +394,7 @@ function scene:show (event)
 			remainingN.text = itemsLeft;
 
 			-- Determine the time left and convert it to seconds
-			timeLeft = (100000 + t1 - system.getTimer())/1000
+			timeLeft = (lvlTime + t1 - system.getTimer())/1000
 
 			-- Format timeLeft to one decimal place
 			timeN.text = string.format("%.1f", timeLeft)
@@ -417,7 +417,28 @@ function scene:show (event)
 	end -- end of "did"
 end  -- end of scene:show
 
+function scene:hide(event)
+	local phase=event.phase;
+	local sceneGroup = self.view;
+
+	if phase=="will" then
+	
+	elseif phase=="did" then
+
+	end
+end
+
+function scene:destroy(event)
+	local phase=event.phase;
+	local sceneGroup = self.view;
+	sceneGroup:removeSelf();
+	sceneGroup=nil;
+end
+
 scene:addEventListener("create", scene)
 scene:addEventListener("show", scene)
+scene:addEventListener("hide", scene)
+scene:addEventListener("destroy", scene)
+
 
 return scene;
