@@ -46,6 +46,7 @@ function Trash:spawn(xPos, yPos)
 
 	self.shape:setFillColor(1,1,1);
 	self.shape.tag = "trash";
+	self.shape.score = 1;
 	-- physics.addBody(self.shape, "dynamic", {filter=CollisionFilters.trash});
 	physics.addBody(self.shape, "dynamic", {bounce = 0.3, shape = {-32, 25,  20, -25,  30, 5,  -30, -10}, filter=CollisionFilters.trash});
     self.shape:toBack()
@@ -57,9 +58,13 @@ function Trash:spawn(xPos, yPos)
 	   		self.shape:setLinearVelocity( 0, 0 );
 	   		self.shape.angularVelocity=0;
 
+	   		self.shape.score = 1;
+
 			self.shape.markX = self.shape.x;
 			self.shape.markY = self.shape.y;
 			print("BEGAN: ",event.xStart,event.yStart) -- checking to make sure xStart and yStart don't change
+
+			display.getCurrentStage():setFocus( event.target )
 
 		elseif event.phase == "moved" then
 			self.updated=true;
@@ -73,12 +78,18 @@ function Trash:spawn(xPos, yPos)
 				self.shape.y = y;
 			end
 			
-		elseif event.phase == "ended" then
+		elseif event.phase == "ended" or event.phase =="canceled" then
 			local x = (event.x - event.xStart);
 			local y = (event.y - event.yStart);
 
 			print(event.xStart,event.x,event.yStart,event.y,self.shape.markX,self.shape.markY)
 			event.target:applyForce(x, y, event.target.x+20, event.target.y+20);
+
+			display.getCurrentStage():setFocus(nil)
+
+			if (event.y<900) then
+				self.shape.score=0;
+			end
 		end
 	end
 
