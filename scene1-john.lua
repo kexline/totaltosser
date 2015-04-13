@@ -16,6 +16,18 @@ local widget = require("widget")
 physics.start()
 physics.setGravity(0,0)
 
+-------------------------------------------------------------------------
+--select the buttons we will be using for this game and set the frames
+local btnOpt =
+{
+	frames = {
+		{ x = 3, y = 2, width=70, height = 22}, --frame 1
+		{ x = 78, y = 2, width=70, height = 22}, --frame 2
+	}
+};
+
+local buttonSheet = graphics.newImageSheet( "button.png", btnOpt );	
+
 -----------------------Objects----------------------------------------------
 local Bin = require("Bin")
 local Trash = require("Trash");
@@ -25,10 +37,9 @@ local Walls = require("Walls");
 
 -------------------Global Variables-----------------------------------------
  local items = {} -- Used for testing purposes
- local itemMove -- Used for testing purposes
 
 
-local tItems = 30 -- Total items generated
+local tItems = 10 -- Total items generated
 local accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
 local accuracyN -- Display version of the player's accuracy
 local timeLeft = 100000 -- Amount of time left for this level (number is for
@@ -36,51 +47,27 @@ local timeLeft = 100000 -- Amount of time left for this level (number is for
 local timeN -- Display version of the time left
 local t1 -- System time when the game begins
 
-local xx = display.contentCenterX; local ww=display.contentWidth;
-local yy = display.contentCenterY; local hh=display.contentHeight;
+local numChildren=10;
+
+local xx = display.contentCenterX
+local yy = display.contentCenterY
 
 local trashBin -- Bin object
 
 -----------------------------------------------------------------------------
 
----------- Graphics ---------------------------------------------------------
-local btnOptions = { 
-	frames = {	
- 	{ x = 0, y =15, width = 322, height = 65},  -- 1 clean huge
- 	{ x = 322, y =15, width = 314, height = 65},  -- clean huge light
- 	{ x = 0, y =535, width = 179, height = 65},  -- 3 tutorial huge
-	{ x = 322, y =532, width = 179, height = 65},  -- tutorial huge light
-	{ x = 0, y =756, width = 179, height = 65},  -- 5 credits huge
-	{ x = 322, y =756, width = 179, height = 65},  -- credits huge light
-	{ x = 0, y =239, width = 138, height = 65}, -- 7 Home
-	{ x = 322, y = 239, width = 138, height = 65}, -- Home light
-	{ x = 0, y =85, width = 183, height = 68},  -- 9 continue huge
-	{ x = 322, y =85, width = 183, height = 68},  -- continue huge light
-	{ x = 0, y =154, width = 137, height = 68},  -- 11 Retry huge
-	{ x = 322, y =154, width = 137, height = 68},  -- Retry huge light
-
-}}
-
-local btnSheet = graphics.newImageSheet( "./images/btnSheet_l.png", btnOptions );
-
------------------------------------------------------------------------------
------------------------------------------------------------------------------
-
-
-
-
 function scene:create(event)
 	local sceneGroup = self.view
 
+	--[[
+	tItems = 10 -- Total items generated
+	accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
+	timeLeft = 100000 -- Amount of time left for this level (number is for
+					   -- testing purposes)
+	]]
+
 	trashBin = Bin:new()
 	trashBin:spawn()
-
-	local bg = display.newImage ("./images/kitchen_v.png", ".",0,0, 1);
-	bg.anchorX=0; bg.anchorY=0;
-	--bg:rotate(-90);
-	bg:scale(math.min(1,ww/1080,1080/ww), math.min(1,hh/1920, 1920/hh));
-	bg:toBack();
-	sceneGroup:insert(bg);
 
 	-- Score bar on top
 	local topBar = display.newRect(0, 80, display.contentWidth,100)
@@ -88,26 +75,38 @@ function scene:create(event)
 	topBar:toBack()
 	topBar.anchorX = 0; topBar.anchorY = 70
 
+	sceneGroup:insert(topBar);
+
 	-- Label for the player's accuracy
 	local accuracyT = display.newText("Accuracy: ", 200, 43, native.systemFont, 30)
 	accuracyT:setFillColor(0,0,0)
 
+	sceneGroup:insert(accuracyT);
+
 	-- Displayed accuracy number
 	accuracyN = display.newText(accuracy, 300, 43, native.systemFont, 30)
 	accuracyN:setFillColor(0,0,0)
+
+	sceneGroup:insert(accuracyN);
 
 	-- Display percent sign (I'm sure there's a better way to do this,
 	-- but I'm not sure how. Any ideas?)
 	percent = display.newText("%", 354, 43, native.systemFont, 30)
 	percent:setFillColor(0,0,0)
 
+	sceneGroup:insert(percent);
+
 	-- Label for the number of items remaining
 	remaining = display.newText("Remaining: ", 500, 43, native.systemFont, 30)
 	remaining:setFillColor(0,0,0)
+
+	sceneGroup:insert(remaining);
+
 	-- Number of items remaining
 	remainingN = display.newText(trashBin.itemCntr, 590, 43, native.systemFont, 30)
 	remainingN:setFillColor(0,0,0)
 
+	sceneGroup:insert(remainingN);
 
 	-- Score bar on bottom
 	local botBar = display.newRect(0, 1300, display.contentWidth, 100)
@@ -115,61 +114,58 @@ function scene:create(event)
 	botBar:toBack()
 	botBar.anchorX = 0; botBar.anchorY = 1300
 
+	sceneGroup:insert(botBar);
+
 	-- Label for the time left
 	local timeT = display.newText("Time left: ", xx, 1245, native.systemFont, 30)
 	timeT:setFillColor(0,0,0)
+
+	sceneGroup:insert(timeT);
+
 	-- Displayed time left
 	timeN = display.newText(timeLeft, xx+100, 1245, native.systemFont, 30)
 	timeN:setFillColor(0,0,0)
+
+	sceneGroup:insert(timeN);
 	
-
-
-
 	--[[
 	---------------Testing purposes only-----------------------------------------------
 	---- Generates movable prototype items
 	--
-    function createTrash(i)
-        local trash = Trash:new();
-        local a = math.random(50, 670)
-        local b = math.random (350, 1100)
-        trash:spawn(a, b);
-        item[i]=trash;
-    end
+	function createTrash(i)
+		local trash = Trash:new();
+		trash:spawn(30+i*52, i*5+380);
+	end
 
 	 for i=0, 9 do
 	 	createTrash(i);
 	 end
-	 ]]
+	]]
 	-----------------------------------Build Walls--------------------------------------
 	------------------------------------------------------------------------------------
 	local walls = Walls:new();
 	walls:spawn();
 end
 
+
 function scene:show (event)
 	local sceneGroup = self.view
 	local phase = event.phase
-
-
-	function createTrash(i)
-		local trash = Trash:new();
-		--trash:spawn(30+i*52, i*5+380);
-		local a = math.random(50, 670)
-		local b = math.random (350, 1100)
-		trash:spawn(a, b);
-		trash.shape:toFront();
-		items[i]=trash;
-		sceneGroup:insert(trash.shape);
-	end
 
 	if (phase == "will") then
 
 	---------------Testing purposes only-----------------------------------------------
 	---- Generates movable prototype items
 	--
+	function createTrash(i)
+		local trash = Trash:new();
+		trash:spawn(30+i*52, i*5+380);
+		items[i]=trash;
+	end
 
-
+	for i=0, 9 do
+	 	createTrash(i);
+	end
 
 	tItems = 10 -- Total items generated
 	accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
@@ -179,12 +175,7 @@ function scene:show (event)
 	trashBin = Bin:new()
 	trashBin:spawn()
 
-	elseif (phase == "did") then
-
-
-		for i=0, 9 do
-		 	createTrash(i);
-		end
+	elseif (phase == "did") then	
 
 		t1 = system.getTimer() -- Save the current time
 
@@ -206,8 +197,7 @@ function scene:show (event)
 			local winText3 = display.newText("Would you like to play again?", xx, yy-60, native.systemFont, 30)
 			winText3:setFillColor(0,0,0)
 
-
-		local function restart(event)
+			local function restart(event)
 
 				-- Remove display objects/text
 				display.remove(winBox)
@@ -228,7 +218,6 @@ function scene:show (event)
 				btnNext=nil;
 
 				composer.gotoScene("scene1")
-
 			end
 
 			local function newGame()
@@ -272,40 +261,40 @@ function scene:show (event)
 				display.remove(btnNext);
 				btnNext=nil;
 
-				composer.gotoScene("scene3")
+				composer.gotoScene("scene3NEW")
 			end
 
-			--------- Button to restart the level-------------
-			btnAgain = widget.newButton(
-			{
-				x = xx,
-				y = yy,
-				id = "retry",
-				label = "Level 1",
-				labelColor = {default={0,0,0}, over={1,1,1}},
-				sheet = buttonSheet,
-				defaultFrame = 12,
-				overFrame = 13,
-				onEvent = restart,
-				}
-				)
+			----------- Button to restart the level-------------
+			 btnAgain = widget.newButton(
+			 {
+			 	x = xx,
+			 	y = yy,
+			 	id = "restart",
+			 	label = "Restart",
+			 	labelColor = {default={0,0,0}, over={1,1,1}},
+			 	sheet = buttonSheet,
+			 	defaultFrame = 1,
+			 	overFrame = 2,
+			 	onEvent = restart,
+			 	}
+			 	)
 
-			--------- Button to start the game over from Level 1-------------
-			btnNew = widget.newButton(
-			{
-				x = xx,
-				y = yy,
-				id = "home",
-				label = "Home",
-				labelColor = {default={0,0,0}, over={1,1,1}},
-				sheet = buttonSheet,
-				defaultFrame = 7,
-				overFrame = 8,
-				onEvent = newGame,
-				}
-				)
+			----------- Button to start the game over from Level 1-------------
+			 btnNew = widget.newButton(
+			 {
+			 	x = xx,
+			 	y = yy+50,
+			 	id = "new game",
+			 	label = "New Game",
+			 	labelColor = {default={0,0,0}, over={1,1,1}},
+			 	sheet = buttonSheet,
+			 	defaultFrame = 1,
+			 	overFrame = 2,
+			 	onEvent = newGame,
+			 	}
+			 	)
 
-			----------- Button to go to next level-------------
+			 ----------- Button to go to next level-------------
 			 btnNext = widget.newButton(
 			 {
 			 	x = xx,
@@ -314,12 +303,12 @@ function scene:show (event)
 			 	label = "Level 2",
 			 	labelColor = {default={0,0,0}, over={1,1,1}},
 			 	sheet = buttonSheet,
-			 	defaultFrame = 9,
-			 	overFrame = 10,
+			 	defaultFrame = 1,
+			 	overFrame = 2,
 			 	onEvent = nextLevel,
 			 	}
 			 	)
-		end -- end of nextScene
+		end
 
 		-- gameOver: Called when the player runs out of time. Displays a message and
 		-- provides a button to try again. Contains a nested function (restart), which 
@@ -362,7 +351,7 @@ function scene:show (event)
 
 				--Call this scene again
 				composer.gotoScene("scene1")
-			end -- end of restart
+			end
 
 			btnAgain = widget.newButton(
 			{
@@ -377,7 +366,7 @@ function scene:show (event)
 			 	onEvent = restart,
 			 	}
 				)
-		end -- end of gameover
+		end
 		
 		-- updateAccuracy: Continuously updates values cooresponding to the score bar and
 		-- calls gameOver() or nextScene() if appropriate.
@@ -411,11 +400,11 @@ function scene:show (event)
 				Runtime:removeEventListener("enterFrame", updateAccuracy)
 			end
 
-		end -- end of updateAccuracy
+		end
 
 		Runtime:addEventListener("enterFrame", updateAccuracy)
-	end -- end of "did"
-end  -- end of scene:show
+	end
+end
 
 scene:addEventListener("create", scene)
 scene:addEventListener("show", scene)
