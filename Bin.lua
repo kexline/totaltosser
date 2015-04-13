@@ -16,14 +16,14 @@ local yy = display.contentCenterY; local hh=display.contentHeight;
 
 binSize=150;
 
-local binOpts = {
+binOpts = {
 	frames = {
-	{x=5,   y=5, width=250, height=300}, -- bin 
-	{x=205, y=5, width=100, height=200}, -- basket
+	{x=75,  y=5, width=145, height=300}, -- bin 
+	{x=250, y=5, width=250, height=300}, -- basket
 	{x=450, y=5, width=100, height=200} -- basket
 	}}
 
-local binSheet = graphics.newImageSheet("./images/binSheet.png", binOpts); 
+binSheet = graphics.newImageSheet("./images/binSheet.png", binOpts); 
 
 -----------------Bin Object - Parent object of Basket and Box----------------------------
 
