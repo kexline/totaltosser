@@ -56,8 +56,9 @@ blurb=[[Created for UAH by
 ]]..blurb.."\n\n"..[[ with help from
 
 Sun-il Kim
+William Edmonds
 Corona Labs
-dabuttonfactory.com
+Da Button Factory 
 
 Rooms inspired by 
 Flash Point Fire Rescue
