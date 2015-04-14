@@ -76,7 +76,12 @@ function Trash:spawn(xPos, yPos)
 
 				self.shape.x = x;
 				self.shape.y = y;
+
+				if (event.y<midlineYPos) then
+				self.shape.score=0;
+				end
 			end
+
 			
 		elseif event.phase == "ended" or event.phase =="canceled" then
 			local x = (event.x - event.xStart);
@@ -87,9 +92,7 @@ function Trash:spawn(xPos, yPos)
 
 			display.getCurrentStage():setFocus(nil)
 
-			if (event.y<900) then
-				self.shape.score=0;
-			end
+
 		end
 	end
 

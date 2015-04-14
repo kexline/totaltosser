@@ -67,7 +67,11 @@ function Laundry:spawn(xPos, yPos)
 
 				self.shape.x = x;
 				self.shape.y = y;
-			
+				
+				if (event.y<midlineYPos) then
+					self.shape.score=0;
+				end
+				
 			end
 			
 		elseif event.phase == "ended" or event.phase =="canceled" then
@@ -79,9 +83,6 @@ function Laundry:spawn(xPos, yPos)
 
 			display.getCurrentStage():setFocus(nil)
 
-			if (event.y<900) then
-				self.shape.score=0;
-			end
 		end
 	end
 

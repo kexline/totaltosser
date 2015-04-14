@@ -23,8 +23,8 @@ function Walls:spawn(xPos, yPos)
 	local bottom = display.newRect(0,display.contentHeight-80, display.contentWidth, 5);	--our bottom screen border
 	local top = display.newRect(0,80,display.contentWidth, 5);	--our top screen border
 
-	local mid = display.newRect(0, display.contentHeight-400, display.contentWidth*2, 10);
-	mid:setFillColor(1,1,0);
+	local midline = display.newRect(0, midlineYPos, display.contentWidth*2, 10);
+	midline:setFillColor(1,1,0);
 
 	left.anchorX = 0;left.anchorY = 0;	--anchor the left border
 	right.anchorX = 0;right.anchorY = 0;	--anchor the right border

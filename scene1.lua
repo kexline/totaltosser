@@ -27,7 +27,7 @@ local Walls = require("Walls");
  local items = {} -- Used for testing purposes
  local itemMove -- Used for testing purposes
 
-local tItems = 30 -- Total items generated
+local tItems = 10 -- Total items generated
 local accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
 local accuracyN -- Display version of the player's accuracy
 local lvlTime = 25000 -- Amount of time left for this level (number is for
@@ -69,8 +69,6 @@ local btnSheet = graphics.newImageSheet( "./images/btnSheet_l.png", btnOptions )
 -----------------------------------------------------------------------------
 
 
-
-
 function scene:create(event)
 	local sceneGroup = self.view
 
@@ -80,7 +78,8 @@ function scene:create(event)
 	local bg = display.newImage ("./images/kitchen_v.png", ".",0,0, 1);
 	bg.anchorX=0; bg.anchorY=0;
 	--bg:rotate(-90);
-	bg:scale(math.min(1,ww/1080,1080/ww), math.min(1,hh/1920, 1920/hh));
+	--bg:scale(math.min(1,ww/1080,1080/ww), math.min(1,hh/1920, 1920/hh));
+	bg:scale(.71,.68)
 	bg:toBack();
 	sceneGroup:insert(bg);
 
@@ -90,26 +89,38 @@ function scene:create(event)
 	topBar:toBack()
 	topBar.anchorX = 0; topBar.anchorY = 70
 
+	sceneGroup:insert(topBar);
+
 	-- Label for the player's accuracy
 	local accuracyT = display.newText("Accuracy: ", 200, 43, native.systemFont, 30)
 	accuracyT:setFillColor(0,0,0)
 
+	sceneGroup:insert(accuracyT);
+
 	-- Displayed accuracy number
 	accuracyN = display.newText(accuracy, 300, 43, native.systemFont, 30)
 	accuracyN:setFillColor(0,0,0)
+
+	sceneGroup:insert(accuracyN);
 
 	-- Display percent sign (I'm sure there's a better way to do this,
 	-- but I'm not sure how. Any ideas?)
 	percent = display.newText("%", 354, 43, native.systemFont, 30)
 	percent:setFillColor(0,0,0)
 
+	sceneGroup:insert(percent);
+
 	-- Label for the number of items remaining
 	remaining = display.newText("Remaining: ", 500, 43, native.systemFont, 30)
 	remaining:setFillColor(0,0,0)
+
+	sceneGroup:insert(remaining);
+
 	-- Number of items remaining
 	remainingN = display.newText(trashBin.itemCntr, 590, 43, native.systemFont, 30)
 	remainingN:setFillColor(0,0,0)
 
+	sceneGroup:insert(remainingN);
 
 	-- Score bar on bottom
 	local botBar = display.newRect(0, 1300, display.contentWidth, 100)
@@ -117,12 +128,19 @@ function scene:create(event)
 	botBar:toBack()
 	botBar.anchorX = 0; botBar.anchorY = 1300
 
+	sceneGroup:insert(botBar);
+
 	-- Label for the time left
 	local timeT = display.newText("Time left: ", xx, 1245, native.systemFont, 30)
 	timeT:setFillColor(0,0,0)
+
+	sceneGroup:insert(timeT);
+
 	-- Displayed time left
 	timeN = display.newText(timeLeft, xx+100, 1245, native.systemFont, 30)
 	timeN:setFillColor(0,0,0)
+
+	sceneGroup:insert(timeN);
 	
 
 
@@ -158,12 +176,12 @@ function scene:show (event)
 		local trash = Trash:new();
 		--trash:spawn(30+i*52, i*5+380);
 		local a = math.random(50, 670)
-		local b = math.random (350, 1100)
+		local b = math.random (midlineYPos+20, 1150)
 		trash:spawn(a, b);
 		trash.shape:toFront();
 		items[i]=trash;
 		sceneGroup:insert(trash.shape);
-	end
+	end -- createTrash
 
 	if (phase == "will") then
 
@@ -274,7 +292,7 @@ function scene:show (event)
 				display.remove(btnNext);
 				btnNext=nil;
 
-				composer.gotoScene("scene3")
+				composer.gotoScene("scene2")
 			end
 
 			--------- Button to restart the level-------------
@@ -323,15 +341,20 @@ function scene:show (event)
 		local function gameOver()
 			print("You ran out of time!")
 
-			local overBox = display.newRoundedRect(xx, yy, 450, 500,10)
-			overBox:setFillColor(0.65,0.65,0.5)
+			local overBox = display.newRoundedRect(xx, yy, 450, 500,7)
+			overBox:setFillColor(0.65,0.65,0.65)
 			overBox.alpha = 0.7 -- Transparency
 
 			local overText1 = display.newText("Game over!", xx, yy-185, native.systemFont, 35)
 			overText1:setFillColor(0,0,0)
 
-			local overText2 = display.newText("You ran out of time.", xx, yy-100, native.systemFont, 30)
-			overText2:setFillColor(0,0,0)
+			if (time==0) then
+				local overText2 = display.newText("You ran out of time.", xx, yy-100, native.systemFont, 30)
+				overText2:setFillColor(0,0,0)
+			else 
+				local overText2 = display.newText("Accuracy less than 50.", xx, yy-100, native.systemFont, 30)
+				overText2:setFillColor(0,0,0)
+			end
 
 			local overText3 = display.newText("Would you like to play again?", xx, yy-60, native.systemFont, 30)
 			overText3:setFillColor(0,0,0)
@@ -351,14 +374,14 @@ function scene:show (event)
 				display.remove(btnAgain)
 				btnAgain = nil
 
-				for i=1, numChildren do 	--go through our group of blocks
-					display.remove(items[i]);		--remove each block
-					items[i]=nil;				--set each block equal to nil
+				for i=0, numChildren-1 do --go through our group of blocks
+					display.remove(item[i].shape) -- Delete the display object
+					items[i] = nil -- Set the object to nil
 				end
 
 				--Call this scene again
 				composer.gotoScene("scene1")
-			end -- end of restart
+			end -- restart
 
 			btnAgain = widget.newButton(
 			{
@@ -370,14 +393,15 @@ function scene:show (event)
 			 	onEvent = restart,
 			 	}
 				)
-		end -- end of gameover
+		end -- gameOver
+
 		
 		-- updateAccuracy: Continuously updates values cooresponding to the score bar and
 		-- calls gameOver() or nextScene() if appropriate.
 		local function updateAccuracy(event)
 			-- Calculate accuracy
 			local tScore = trashBin.score;
-			accuracy = (tScore/tItems)*100;
+			accuracy = (trashBin.score/tItems)*100;
 
 			-- Format accuracy to one decimal place
 			accuracyN.text = string.format("%.1f", accuracy)
@@ -393,22 +417,25 @@ function scene:show (event)
 			timeN.text = string.format("%.1f", timeLeft)
 
 			-- No time left
-			if (timeLeft <= 0.0) then
+			if (timeLeft == 0) then
 				gameOver()
 				Runtime:removeEventListener("enterFrame", updateAccuracy)
 			end
 
 			-- No items left
-			if (itemsLeft <= 0) then
-				nextScene()
+			if (itemsLeft == 0) then
+				if (accuracy >=50) then
+					nextScene()
+				else 
+					gameOver()
+				end
 				Runtime:removeEventListener("enterFrame", updateAccuracy)
 			end
 
-		end -- end of updateAccuracy
-
-		Runtime:addEventListener("enterFrame", updateAccuracy)
-	end -- end of "did"
-end  -- end of scene:show
+		end -- updateAccuracy
+		 Runtime:addEventListener("enterFrame", updateAccuracy)
+    end
+end
 
 function scene:hide(event)
 	local phase=event.phase;

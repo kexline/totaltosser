@@ -5,7 +5,7 @@
 
 local CollisionFilters = require ("CollisionFilters");
 
-local Bin = {score = 0, itemCntr = 10}
+local Bin = {score = 0, itemCntr = 10, binSize=150}
 
 ----------------- Convenience variables -------------------------------------------------
 
@@ -14,12 +14,10 @@ local yy = display.contentCenterY; local hh=display.contentHeight;
 
 ----------------- Graphics for Targets --------------------------------------------------
 
-binSize=150;
-
 binOpts = {
 	frames = {
 	{x=75,  y=5, width=145, height=300}, -- bin 
-	{x=250, y=5, width=250, height=300}, -- basket
+	{x=255, y=5, width=235, height=300}, -- basket
 	{x=450, y=5, width=100, height=200} -- basket
 	}}
 
@@ -42,7 +40,7 @@ function Bin:spawn()
 	-- self.shape = display.newCircle(display.contentCenterX, 200, 65)
 	self.shape = display.newImage(binSheet, 1)
 	self.shape.x=ww*.3; self.shape.y=200;
-	local a=math.min(binSize/250, 250/binSize);
+	local a=math.min(self.binSize/250, 250/self.binSize);
 	self.shape:scale(a,a);
 
 	self.shape.pp = self
@@ -51,6 +49,7 @@ function Bin:spawn()
 	physics.addBody(self.shape, "static", {filter=CollisionFilters.bin})
 
 	function removeItem(event)
+		--print(string.format("Remove Item:  Bin caught %s", event.other.tag))
 		if (event.phase == "began") then
 			if (event.other.tag == "trash") then --Correct bin
 				if (event.other.score ==1) then
