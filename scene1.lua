@@ -85,7 +85,7 @@ function scene:create(event)
 
 	-- Score bar on top
 	local topBar = display.newRect(0, 80, display.contentWidth,100)
-	topBar:setFillColor(0.65, 0.65, 0.65)
+	topBar:setFillColor(0.65, 0.65, 0.65, 0.65)
 	topBar:toBack()
 	topBar.anchorX = 0; topBar.anchorY = 70
 
@@ -171,10 +171,8 @@ function scene:show (event)
 	local sceneGroup = self.view
 	local phase = event.phase
 
-
 	function createTrash(i)
 		local trash = Trash:new();
-		--trash:spawn(30+i*52, i*5+380);
 		local a = math.random(50, 670)
 		local b = math.random (midlineYPos+20, 1150)
 		trash:spawn(a, b);
