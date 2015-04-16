@@ -4,7 +4,6 @@
 -- Approach:
 
 local CollisionFilters = require ("CollisionFilters");
-
 local sheetInfo = require("trashSheet")
 local trashImages = graphics.newImageSheet("trashSheet.png", sheetInfo:getSheet())
 
@@ -47,10 +46,8 @@ function Trash:spawn(xPos, yPos)
 	self.shape:setFillColor(1,1,1);
 	self.shape.tag = "trash";
 	self.shape.score = 1;
-	-- physics.addBody(self.shape, "dynamic", {filter=CollisionFilters.trash});
 	physics.addBody(self.shape, "dynamic", {bounce = 0.3, shape = {-32, 25,  20, -25,  30, 5,  -30, -10}, filter=CollisionFilters.trash});
     self.shape:toBack()
-
 
 	function itemMove(event)
 	   if event.phase == "began" then
@@ -62,7 +59,6 @@ function Trash:spawn(xPos, yPos)
 
 			self.shape.markX = self.shape.x;
 			self.shape.markY = self.shape.y;
-			print("BEGAN: ",event.xStart,event.yStart) -- checking to make sure xStart and yStart don't change
 
 			display.getCurrentStage():setFocus( event.target )
 
@@ -77,21 +73,25 @@ function Trash:spawn(xPos, yPos)
 				self.shape.x = x;
 				self.shape.y = y;
 
-				if (event.y<midlineYPos) then
-				self.shape.score=0;
+				if (event.y < midlineYPos) then
+					self.shape.score=0;
 				end
 			end
-
 			
 		elseif event.phase == "ended" or event.phase =="canceled" then
 			local x = (event.x - event.xStart);
 			local y = (event.y - event.yStart);
 
-			print(event.xStart,event.x,event.yStart,event.y,self.shape.markX,self.shape.markY)
-			event.target:applyForce(x, y, event.target.x+20, event.target.y+20);
+			-- allow player to reposition the item behind the line if it winds up in front of it.
+			if self.shape.markY and (self.shape.markY < midlineYPos) then
+				if event.y < midlinePos then
+					self.shape.score=1;
+				end
+			else
+			 	event.target:applyForce(x, y, event.target.x+20, event.target.y+20); 
+			end
 
 			display.getCurrentStage():setFocus(nil)
-
 
 		end
 	end
