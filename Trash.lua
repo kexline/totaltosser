@@ -84,11 +84,14 @@ function Trash:spawn(xPos, yPos)
 
 			-- allow player to reposition the item behind the line if it winds up in front of it.
 			if self.shape.markY and (self.shape.markY < midlineYPos) then
-				if event.y < midlinePos then
-					self.shape.score=1;
-				end
+					if self.shape.y > midlineYPos then
+						self.shape.score=1;
+					end
 			else
-			 	event.target:applyForce(x, y, event.target.x+20, event.target.y+20); 
+				--object:applyForce( xForce, yForce, bodyX, bodyY )
+			 	event.target:applyForce(x, y, event.target.x, event.target.y+1); 
+			 	-- event.target:applyForce(x, y, event.target.x+20, event.target.y+20); 
+
 			end
 
 			display.getCurrentStage():setFocus(nil)
