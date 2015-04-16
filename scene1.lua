@@ -346,13 +346,16 @@ function scene:show (event)
 			local overText1 = display.newText("Game over!", xx, yy-185, native.systemFont, 35)
 			overText1:setFillColor(0,0,0)
 
-			if (time==0) then
-				local overText2 = display.newText("You ran out of time.", xx, yy-100, native.systemFont, 30)
-				overText2:setFillColor(0,0,0)
+			local reason;
+			if (timeLeft <= 0) then
+			 	reason="You ran out of time.";
 			else 
-				local overText2 = display.newText("Accuracy less than 50.", xx, yy-100, native.systemFont, 30)
-				overText2:setFillColor(0,0,0)
+				reason="Accuracy less than 50.";
 			end
+
+			local overText2 = display.newText(reason, xx, yy-100, native.systemFont, 30)
+			overText2:setFillColor(0,0,0)
+
 
 			local overText3 = display.newText("Would you like to play again?", xx, yy-60, native.systemFont, 30)
 			overText3:setFillColor(0,0,0)
@@ -373,7 +376,7 @@ function scene:show (event)
 				btnAgain = nil
 
 				for i=0, numChildren-1 do --go through our group of blocks
-					display.remove(item[i].shape) -- Delete the display object
+					display.remove(items[i].shape) -- Delete the display object
 					items[i] = nil -- Set the object to nil
 				end
 
@@ -412,10 +415,13 @@ function scene:show (event)
 			timeLeft = (lvlTime + t1 - system.getTimer())/1000
 
 			-- Format timeLeft to one decimal place
-			timeN.text = string.format("%.1f", timeLeft)
+			-- string.gsub( s, pattern, repl [, n] )
+			timeN.text = string.gsub( string.format("%.1f", timeLeft), "-", "", 1);
 
 			-- No time left
-			if (timeLeft == 0) then
+			-- time==0 causes the clock to overrun
+			-- time<-0 causes the clock to go to =0.0 - string.gsub hides the "-" when time updates
+			if (timeLeft <= 0) then
 				gameOver()
 				Runtime:removeEventListener("enterFrame", updateAccuracy)
 			end
