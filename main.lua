@@ -7,4 +7,4 @@ local composer = require("composer")
 
 midlineYPos=display.contentCenterY
 
-composer.gotoScene("scene2");
+composer.gotoScene("welcome");
