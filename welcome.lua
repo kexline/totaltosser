@@ -41,10 +41,10 @@ local titleOpts =
 local titleSheet = graphics.newImageSheet( "./images/titleSheet.png", titleOpts );
 
 local btnOptions = { frames = {	
- 	{ x = 0, y =15, width = 322, height = 65},  -- clean huge
- 	{ x = 322, y =15, width = 314, height = 65},  -- clean huge light
- 	{ x = 0, y =535, width = 179, height = 65},  -- tutorial huge
-	{ x = 322, y =532, width = 179, height = 65},  -- tutorial huge light
+ 	{ x = 0, y =12, width = 322, height = 65},  -- clean huge
+ 	{ x = 322, y =12, width = 314, height = 65},  -- clean huge light
+ 	{ x = 0, y =535, width = 179, height = 67},  -- tutorial huge
+	{ x = 322, y =535, width = 179, height = 67},  -- tutorial huge light
 	{ x = 0, y =756, width = 179, height = 65},  -- credits huge
 	{ x = 322, y =756, width = 179, height = 65},  -- credits huge light
 }}
