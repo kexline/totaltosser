@@ -75,9 +75,9 @@ function scene:create(event)
 	basket = Basket:new()
 	basket:spawn()
 
-	local bg = display.newImage ("./images/bedroom_v-no-clock.png", ".",0,0, 1);
-	bg.anchorX=-.3; bg.anchorY=0;
-	bg:scale(math.min(1,ww/1080,1080/ww)+.2, math.min(1,hh/1920, 1920/hh)+.2);
+	local bg = display.newImage ("./images/bedroom_v.png", ".",0,0, 1);
+	bg.anchorX=0; bg.anchorY=0;
+	bg:scale(.72,.72);
 	bg:toBack();
 	sceneGroup:insert(bg);
 
@@ -86,7 +86,7 @@ function scene:create(event)
 
 	-- Score bar on top
 	local topBar = display.newRect(0, 80, display.contentWidth,100)
-	topBar:setFillColor(0.65, 0.65, 0.65)
+	topBar:setFillColor(0.65, 0.65, 0.65, 0.65)
 	topBar:toBack()
 	topBar.anchorX = 0; topBar.anchorY = 70
 
@@ -125,7 +125,7 @@ function scene:create(event)
 
 	-- Score bar on bottom
 	local botBar = display.newRect(0, 1300, display.contentWidth, 100)
-	botBar:setFillColor(0.65, 0.65, 0.65)
+	botBar:setFillColor(0.65, 0.65, 0.65, 0.65)
 	botBar:toBack()
 	botBar.anchorX = 0; botBar.anchorY = 1300
 
