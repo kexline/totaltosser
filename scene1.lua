@@ -79,7 +79,7 @@ function scene:create(event)
 	bg.anchorX=0; bg.anchorY=0;
 	--bg:rotate(-90);
 	--bg:scale(math.min(1,ww/1080,1080/ww), math.min(1,hh/1920, 1920/hh));
-	bg:scale(.71,.68)
+	bg:scale(.71,.70)
 	bg:toBack();
 	sceneGroup:insert(bg);
 
