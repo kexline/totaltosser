@@ -33,7 +33,7 @@ local scrollView; -- have to make this a scene global because it is not working 
 
 local function shakeShortTable( t )
 	-- shuffleTable function from previous homework does not work for this very short case.
-    assert( t, "jumbleTable() expected a table, got nil" )
+    assert( t, "shakeShortTable() expected a table, got nil" )
     local items=#t 
     local j 
     j = math.random(1,#t)
