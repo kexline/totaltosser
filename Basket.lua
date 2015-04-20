@@ -27,7 +27,9 @@ function Basket:spawn()
 
 	self.shape.pp = self
 	self.shape.tag = "basket"
-	physics.addBody(self.shape, "static", {filter=CollisionFilters.basket})
+--	physics.addBody(self.shape, "static", {filter=CollisionFilters.basket})
+	physics.addBody(self.shape, "static", {filter=CollisionFilters.basket,
+        shape = {-50,-50, 48,-50, 48,56, -50,56 }})
 
 		function removeItem(event)
 			print(string.format("Remove Item:  Basket caught %s", event.other.tag))

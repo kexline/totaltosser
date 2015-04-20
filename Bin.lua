@@ -46,8 +46,9 @@ function Bin:spawn()
 	self.shape.pp = self
 	self.shape.tag = "trash bin"
 	self.shape:setFillColor(1,1,1)
-	physics.addBody(self.shape, "static", {filter=CollisionFilters.bin})
-
+	--physics.addBody(self.shape, "static", {filter=CollisionFilters.bin})
+	physics.addBody(self.shape, "static", {filter=CollisionFilters.bin, 
+        shape = {-43,-50, 42,-50, 42,62, -43,62 }})
 	function removeItem(event)
 		--print(string.format("Remove Item:  Bin caught %s", event.other.tag))
 		if (event.phase == "began") then
