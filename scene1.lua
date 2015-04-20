@@ -124,7 +124,7 @@ function scene:create(event)
 
 	-- Score bar on bottom
 	local botBar = display.newRect(0, 1300, display.contentWidth, 100)
-	botBar:setFillColor(0.65, 0.65, 0.65)
+	botBar:setFillColor(0.65, 0.65, 0.65, 0.65)
 	botBar:toBack()
 	botBar.anchorX = 0; botBar.anchorY = 1300
 
