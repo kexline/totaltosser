@@ -84,6 +84,10 @@ function Toy:spawn(xPos, yPos)
 		end
 	end
 
+	if (event.y<midlineYPos) then
+		self.shape.score=0;
+	end
+
 	self.shape:addEventListener("touch", itemMove);
 end
 
