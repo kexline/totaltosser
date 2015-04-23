@@ -18,12 +18,12 @@ end
 
 
 function Walls:spawn(xPos, yPos)
-	local left = display.newRect(0,0,5, display.contentHeight);	--our left screen border
-	local right = display.newRect(display.contentWidth,5,5,display.contentHeight);	--our right screen border
-	local bottom = display.newRect(0,display.contentHeight-80, display.contentWidth, 5);	--our bottom screen border
-	local top = display.newRect(0,80,display.contentWidth, 5);	--our top screen border
+	left = display.newRect(0,0,5, display.contentHeight);	--our left screen border
+	right = display.newRect(display.contentWidth,5,5,display.contentHeight);	--our right screen border
+	bottom = display.newRect(0,display.contentHeight-80, display.contentWidth, 5);	--our bottom screen border
+	top = display.newRect(0,80,display.contentWidth, 5);	--our top screen border
 
-	local midline = display.newRect(0, midlineYPos, display.contentWidth*2, 10);
+	midline = display.newRect(0, midlineYPos, display.contentWidth*2, 10);
 	midline:setFillColor(1,1,0);
 
 	left.anchorX = 0;left.anchorY = 0;	--anchor the left border
@@ -37,5 +37,17 @@ function Walls:spawn(xPos, yPos)
 	physics.addBody( top, "static", {filter=CollisionFilters.walls});	--make the top border static
 end
 
+function Walls:rmv()
+    display.remove(left)
+    left = nil
+    display.remove(right)
+    right = nil
+    display.remove(bottom)
+    bottom = nil
+    display.remove(top)
+    top = nil
+    display.remove(midline)
+    midline = nil
+end
 
 return Walls;
