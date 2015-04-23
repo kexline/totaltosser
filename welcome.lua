@@ -184,7 +184,6 @@ function scene:destroy(event)
 	sceneGroup=nil;
 end
 
-
 scene:addEventListener("create", scene)
 scene:addEventListener("show", scene)
 scene:addEventListener("hide", scene)
