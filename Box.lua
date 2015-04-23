@@ -4,10 +4,15 @@
 -- Approach:
 
 local CollisionFilters = require ("CollisionFilters");
+local Bin = require("Bin")
+
+----------------- Convenience variables -------------------------------------------------
+
+local xx = display.contentCenterX; local ww=display.contentWidth;
+local yy = display.contentCenterY; local hh=display.contentHeight;
 
 ---------------------Box Object - Inherits from Bin-------------------------------------------
 
-local Bin = require("Bin")
 
 local Box = Bin:new{score = 0,itemCntr = 10} -- Number of items generated for this bin.
 
