@@ -15,12 +15,13 @@ local yy = display.contentCenterY; local hh=display.contentHeight;
 
 ----------- Basekt Object --------------------------------------------------------------
 
-local Basket = Bin:new({itemCntr = 10, binSize=120}) -- Number of items generated for this bin.
+local Basket = Bin:new({itemCntr = 10, binSize=120, xPos=0, yPos=0}
+ -- Number of items generated for this bin.
 
 function Basket:spawn()
 	--self.shape = display.newRect(display.contentCenterX-210, 165, 165, 110)
 
-	self.shape = display.newImage(binSheet, 2)
+	self.shape = display.newImage(binSheet, 2, self.xPos, self.yPos)
 	self.shape.x=ww*.8; self.shape.y=210;
 	local a=math.min(self.binSize/250, 250/self.binSize);
 	self.shape:scale(a,a-.1);

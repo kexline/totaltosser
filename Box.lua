@@ -11,18 +11,31 @@ local Bin = require("Bin")
 local xx = display.contentCenterX; local ww=display.contentWidth;
 local yy = display.contentCenterY; local hh=display.contentHeight;
 
+----------------- Graphics for Targets --------------------------------------------------
+
+binOpts = {
+    frames = {
+    {x=75,  y=5, width=145, height=300}, -- bin 
+    {x=255, y=5, width=235, height=300}, -- basket
+    {x=526, y=5, width=262, height=300} -- box
+    }}
+
+binSheet = graphics.newImageSheet("./images/binSheet.png", binOpts); 
+
+
 ---------------------Box Object - Inherits from Bin-------------------------------------------
 
 
 local Box = Bin:new{score = 0,itemCntr = 10} -- Number of items generated for this bin.
 
 function Box:spawn()
-	self.shape = display.newRect(display.contentCenterX+200, 165, 125, 125)
+	self.shape = display.newImage(binSheet, 3)
+	self.shape.x=xx; self.shape.y=210;
+	physics.addBody(self.shape, "static", {filter=CollisionFilters.box, shape = {-82,-50, 72,-50, 72,62, -82,62 }})
 
 	self.shape.pp = self
 	self.shape.tag = "toy box"
 	self.shape:setFillColor(1,1,0)
-	physics.addBody(self.shape, "static", {filter=CollisionFilters.box})
 
 		function removeItem(event)
 			if (event.phase == "began") then

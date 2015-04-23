@@ -5,7 +5,7 @@
 
 local CollisionFilters = require ("CollisionFilters");
 
-local Bin = {score = 0, itemCntr = 10, binSize=150}
+local Bin = {score = 0, itemCntr = 10, binSize=150, xPos = 0, yPos = 0}
 
 ----------------- Convenience variables -------------------------------------------------
 
