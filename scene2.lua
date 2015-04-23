@@ -258,6 +258,10 @@ function scene:show (event)
 
 				display.remove(btnNext);
 				btnNext=nil;
+				display.remove(trashBin.shape)
+				trashBin = nil
+				display.remove(basket.shape)
+				basket = nil
 
 				composer.gotoScene("scene2")
 
@@ -311,7 +315,7 @@ function scene:show (event)
 			 btnAgain = widget.newButton(
 			 {
 			 	x = xx,
-			 	y = yy,
+			 	y = yy+100,
 			 	id = "restart",
 			 	label = "Restart",
 			 	labelColor = {default={0,0,0}, over={1,1,1}},
@@ -360,19 +364,20 @@ function scene:show (event)
 			print("You ran out of time!")
 
 			local overBox = display.newRoundedRect(xx, yy, 450, 500,7)
-			overBox:setFillColor(0.65,0.65,0.65)
-			overBox.alpha = 0.7 -- Transparency
+			overBox:setFillColor(0.65,0.65,0.65,0.75)
 
 			local overText1 = display.newText("Game over!", xx, yy-185, native.systemFont, 35)
 			overText1:setFillColor(0,0,0)
 
-			if (time==0) then
-				local overText2 = display.newText("You ran out of time.", xx, yy-100, native.systemFont, 30)
+			-- if (timeLeft ~= 0) then
+				-- local overText2 = display.newText("You ran out of time.", xx, yy-100, native.systemFont, 30)
+				reason = reason or "Whoops.";
+				local overText2 = display.newText(reason, xx, yy-100, native.systemFont, 30)
 				overText2:setFillColor(0,0,0)
-			else 
-				local overText2 = display.newText("Accuracy less than 50.", xx, yy-100, native.systemFont, 30)
-				overText2:setFillColor(0,0,0)
-			end
+			-- else 
+				-- local overText2 = display.newText("Accuracy less than 50%s", xx, yy-100, native.systemFont, 30)
+				-- overText2:setFillColor(0,0,0)
+			-- end
 
 			local overText3 = display.newText("Would you like to play again?", xx, yy-60, native.systemFont, 30)
 			overText3:setFillColor(0,0,0)
@@ -442,17 +447,24 @@ function scene:show (event)
 			timeLeft = (lvlTime + t1 - system.getTimer())/1000
 
 			-- Format timeLeft to one decimal place
-			timeN.text = string.format("%.1f", timeLeft)
-
+			timeN.text = string.gsub( string.format("%.1f", timeLeft), "-", "", 1);
 			-- No items left
-			if (itemsLeft == 0) then
-				if (accuracy >=50) then
-					nextScene()
-				else 
-					gameOver()
-				end
-				Runtime:removeEventListener("enterFrame", updateAccuracy)
-			end
+         	if (timeN.text == "0.0") then
+                reason = "You ran out of time."
+                gameOver()
+                Runtime:removeEventListener("enterFrame", updateAccuracy)
+            end
+
+            -- No items left
+            if (itemsLeft == 0) then
+                if (accuracy >=50) then
+                    nextScene()
+                else 
+                    reason = "Your accuracy was less than 50%."
+                    gameOver()
+                end
+                Runtime:removeEventListener("enterFrame", updateAccuracy)
+            end
 
 		end
 
