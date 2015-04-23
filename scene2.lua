@@ -203,11 +203,11 @@ function scene:show (event)
 		timeLeft = 100000 -- Amount of time left for this level (number is for
 							   -- testing purposes)
 
-		trashBin = Bin:new()
-		trashBin:spawn()
+	 	trashBin = Bin:new({xPos=ww*.3, yPos=200})
+	    trashBin:spawn()
 
-		basket = Basket:new()
-		basket:spawn()
+	    basket = Basket:new({xPos=ww*.8, yPos=210})
+	    basket:spawn()
 
 		--toyBox = Box:new()
 		--toyBox:spawn()
