@@ -72,7 +72,7 @@ local btnSheet = graphics.newImageSheet( "./images/btnSheet_l.png", btnOptions )
 function scene:create(event)
 	local sceneGroup = self.view
 
-	trashBin = Bin:new()
+    trashBin = Bin:new({xPos=ww*.3, yPos=200})
 	trashBin:spawn()
 
 	local bg = display.newImage ("./images/kitchen_v.png", ".",0,0, 1);
