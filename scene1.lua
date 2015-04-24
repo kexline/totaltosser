@@ -141,29 +141,10 @@ function scene:create(event)
 	timeN:setFillColor(0,0,0)
 
 	sceneGroup:insert(timeN);
-	
 
-
-
-	--[[
-	---------------Testing purposes only-----------------------------------------------
-	---- Generates movable prototype items
-	--
-    function createTrash(i)
-        local trash = Trash:new();
-        local a = math.random(50, 670)
-        local b = math.random (350, 1100)
-        trash:spawn(a, b);
-        item[i]=trash;
-    end
-
-	 for i=0, 9 do
-	 	createTrash(i);
-	 end
-	 ]]
 	-----------------------------------Build Walls--------------------------------------
 	------------------------------------------------------------------------------------
-	local walls = Walls:new();
+	walls = Walls:new();
 	walls:spawn();
 end
 
