@@ -17,15 +17,25 @@ physics.setGravity(0,0)
 
 -------------------------------------------------------------------------
 --select the buttons we will be using for this game and set the frames
-local btnOpt =
-{
-	frames = {
-		{ x = 3, y = 2, width=70, height = 22}, --frame 1
-		{ x = 78, y = 2, width=70, height = 22}, --frame 2
-	}
-};
+---------- Graphics ---------------------------------------------------------
+local btnOptions = { 
+	frames = {	
+ 	{ x = 0, y =15, width = 322, height = 65},  -- 1 clean huge
+ 	{ x = 322, y =15, width = 314, height = 65},  -- clean huge light
+ 	{ x = 0, y =535, width = 179, height = 65},  -- 3 tutorial huge
+	{ x = 322, y =532, width = 179, height = 65},  -- tutorial huge light
+	{ x = 0, y =756, width = 179, height = 65},  -- 5 credits huge
+	{ x = 322, y =756, width = 179, height = 65},  -- credits huge light
+	{ x = 0, y = 238, width = 139, height = 67}, -- 7 Home
+	{ x = 322, y = 239, width = 139, height = 67}, -- Home light
+	{ x = 0, y =85, width = 183, height = 68},  -- 9 continue huge
+	{ x = 322, y =85, width = 183, height = 68},  -- continue huge light
+	{ x = 0, y =156, width = 138, height = 70},  -- 11 Retry huge
+	{ x = 322, y =156, width = 138, height = 70},  -- Retry huge light
 
-local buttonSheet = graphics.newImageSheet( "button.png", btnOpt );	
+}}
+
+local btnSheet = graphics.newImageSheet( "./images/btnSheet_l.png", btnOptions );
 
 -----------------------Objects----------------------------------------------
 local Bin = require("Bin")
@@ -69,10 +79,10 @@ local toyBox -- Box object
 function scene:create(event)
 	local sceneGroup = self.view
 
-	trashBin = Bin:new()
+	trashBin = Bin:new({xPos=ww*.3, yPos=200})
 	trashBin:spawn()
 
-	basket = Basket:new()
+	basket = Basket:new({xPos=ww*.8, yPos=210})
 	basket:spawn()
 
 	local bg = display.newImage ("./images/bedroom_v.png", ".",0,0, 1);
@@ -203,10 +213,16 @@ function scene:show (event)
 		timeLeft = 100000 -- Amount of time left for this level (number is for
 							   -- testing purposes)
 
-	 	trashBin = Bin:new({xPos=ww*.3, yPos=200})
-	    trashBin:spawn()
+		-- Create containers again, only if they don't already exist.
+		if (trashBin == nil) then
+			trashBin = Bin:new({xPos=100, yPos=200})
+			trashBin:spawn()
+		end
 
-	    basket = Basket:new({xPos=ww*.8, yPos=210})
+		if (basket == nil) then
+			basket = Basket:new({xPos=ww*.85, yPos=210})
+			basket:spawn()
+		endnew({xPos=ww*.8, yPos=210})
 	    basket:spawn()
 
 		--toyBox = Box:new()
@@ -282,9 +298,23 @@ function scene:show (event)
 
 				display.remove(btnNew);
 				btnNew=nil;
-
 				display.remove(btnNext);
 				btnNext=nil;
+
+				-- Remove the walls
+				walls:rmv()
+				walls = nil
+
+				-- Remove the containers
+				display.remove(trashBin.shape)
+				trashBin = nil
+				display.remove(basket.shape)
+				basket = nil
+
+              	-- If scene1 already exists, destroy it
+				if (scene1 ~= nil) then
+					composer.removeScene("scene1")
+				end
 
 				composer.gotoScene("scene1")
 			end
@@ -301,12 +331,21 @@ function scene:show (event)
 				winText3 = nil
 				display.remove(btnAgain)
 				btnAgain = nil
-
 				display.remove(btnNew);
 				btnNew=nil;
-
 				display.remove(btnNext);
 				btnNext=nil;
+
+				-- Remove the containers
+				display.remove(trashBin.shape)
+				trashBin = nil
+				display.remove(basket.shape)
+				basket = nil
+
+              	-- If scene1 already exists, destroy it
+				if (scene1 ~= nil) then
+					composer.removeScene("scene1")
+				end
 
 				composer.gotoScene("scene3")
 			end
@@ -407,7 +446,11 @@ function scene:show (event)
 					laundryitems[i] = nil -- Set the object to nil
 				end
 
-
+				-- Remove the containers
+				display.remove(trashBin.shape)
+				trashBin = nil
+				display.remove(basket.shape)
+				basket = nil
 
 				--Call this scene again
 				composer.gotoScene("scene2")
