@@ -72,11 +72,9 @@ local btnSheet = graphics.newImageSheet( "./images/btnSheet_l.png", btnOptions )
 function scene:create(event)
 	local sceneGroup = self.view
 
-	-- Create container again if it was deleted.
-	if (trashBin == nil) then
-		trashBin = Bin:new({xPos=100, yPos=200})
-		trashBin:spawn()
-	end
+	-- Create container 
+	trashBin = Bin:new({xPos=100, yPos=200})
+	trashBin:spawn()
 
 	local bg = display.newImage ("./images/kitchen_v.png", ".",0,0, 1);
 	bg.anchorX=0; bg.anchorY=0;
@@ -176,11 +174,16 @@ function scene:show (event)
 	timeLeft = lvlTime -- Amount of time left for this level (number is for
 					   -- testing purposes)
 
-		-- Create container again if it was deleted.
-		if (trashBin == nil) then
-			trashBin = Bin:new({xPos=100, yPos=200})
-			trashBin:spawn()
-		end
+	-- Create container again if it was deleted.
+	if (trashBin == nil) then
+		trashBin = Bin:new({xPos=100, yPos=200})
+		trashBin:spawn()
+	end
+
+	if (walls == nil) then
+		walls = Walls:new();
+		walls:spawn();
+	end
 
 	elseif (phase == "did") then
 
