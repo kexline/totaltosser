@@ -2,23 +2,17 @@
 -- Final Project: Total Tosser
 -- Group members: Karen Exline, Cozette Napoles, and James Taylor
 
--- References:  
--- buttons created using http://dabuttonfactory.com/ and sheeted in Inkscape 
-
--- includes and physics
+----------------------------------- Tutorial --------------------------------------
 local composer = require("composer")
 local scene = composer.newScene()
 local widget = require("widget")
 
--- Convenience variables
+-- Convenience variables --
 local xx = display.contentCenterX; local ww=display.contentWidth;
 local yy = display.contentCenterY; local hh=display.contentHeight;
 local fs=hh/20;  local ff=native.systemFont;
 
--- scene variables
-
--- Graphics
-
+---------- Graphics ---------------------------------------------------------
 local btnOptions = { 
 	frames = {	
  	{ x = 0, y =15, width = 322, height = 65},  -- clean huge
@@ -35,10 +29,13 @@ local btnOptions = {
 
 local btnSheet = graphics.newImageSheet( "./images/btnSheet_l.png", btnOptions );
 
+----------------------------------------------------------------------------
+
 function scene:create(event)
 	local phase=event.phase;
 	local sceneGroup = self.view;
 
+	-- Image that shows the tutorial for the game.
 	local bg = display.newImage ("./images/tutorial.png", xx, yy, 1);
 	bg:scale(math.max(1,ww/1465,1465/ww), math.max(1,hh/2581, 2581/hh));
 
@@ -54,6 +51,8 @@ function scene:show (event)
 
 
 	elseif phase=="did" then
+
+		-- Go back to the welcome screen.
 		local function goBack(event)
 			composer.gotoScene("welcome");
 		end
@@ -75,16 +74,16 @@ function scene:show (event)
 	end
 end
 
--- function scene:hide(event)
--- 	local phase=event.phase;
--- 	local sceneGroup = self.view;
+function scene:hide(event)
+	local phase=event.phase;
+	local sceneGroup = self.view;
 
--- 	if phase=="will" then
+	if phase=="will" then
 
--- 	elseif phase=="did" then
+	elseif phase=="did" then
 
--- 	end
--- end
+	end
+end
 
 function scene:destroy(event)
 	local phase=event.phase;
@@ -93,11 +92,9 @@ function scene:destroy(event)
 	sceneGroup=nil;
 end
 
-
 scene:addEventListener("create", scene)
 scene:addEventListener("show", scene)
--- scene:addEventListener("hide", scene)
+scene:addEventListener("hide", scene)
 scene:addEventListener("destroy", scene)
 
 return scene
-
