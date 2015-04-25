@@ -72,8 +72,11 @@ local btnSheet = graphics.newImageSheet( "./images/btnSheet_l.png", btnOptions )
 function scene:create(event)
 	local sceneGroup = self.view
 
-    trashBin = Bin:new({xPos=ww*.3, yPos=200})
-	trashBin:spawn()
+	-- Create container again if it was deleted.
+	if (trashBin == nil) then
+		trashBin = Bin:new({xPos=100, yPos=200})
+		trashBin:spawn()
+	end
 
 	local bg = display.newImage ("./images/kitchen_v.png", ".",0,0, 1);
 	bg.anchorX=0; bg.anchorY=0;
@@ -168,8 +171,6 @@ function scene:show (event)
 	---- Generates movable prototype items
 	--
 
-
-
 	tItems = 10 -- Total items generated
 	accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
 	timeLeft = lvlTime -- Amount of time left for this level (number is for
@@ -249,6 +250,14 @@ function scene:show (event)
 				display.remove(btnNext);
 				btnNext=nil;
 
+				-- Remove the walls
+				walls:rmv()
+				walls = nil
+
+				-- Remove the container
+				display.remove(trashBin.shape)
+				trashBin = nil
+
 				composer.gotoScene("welcome")
 			end
 
@@ -270,6 +279,14 @@ function scene:show (event)
 
 				display.remove(btnNext);
 				btnNext=nil;
+
+				-- Remove the walls
+				walls:rmv()
+				walls = nil
+
+				-- Remove the container
+				display.remove(trashBin.shape)
+				trashBin = nil
 
 				composer.gotoScene("scene2")
 			end
@@ -360,6 +377,9 @@ function scene:show (event)
 					display.remove(items[i].shape) -- Delete the display object
 					items[i] = nil -- Set the object to nil
 				end
+
+				display.remove(trashBin.shape)
+				trashBin = nil
 
 				--Call this scene again
 				composer.gotoScene("scene1")

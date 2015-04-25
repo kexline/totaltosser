@@ -61,7 +61,7 @@ local Walls = require("Walls");
 local tItems = 20 -- Total items generated
 local accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
 local accuracyN -- Display version of the player's accuracy
-local lvlTime = 65000
+local lvlTime = 45000
 local timeLeft = lvlTime -- Amount of time left for this level (number is for
 					   -- testing purposes)
 local timeN -- Display version of the time left
@@ -316,7 +316,7 @@ function scene:show (event)
 					composer.removeScene("scene1")
 				end
 
-				composer.gotoScene("scene1")
+				composer.gotoScene("welcome")
 			end
 
 			local function nextLevel()
