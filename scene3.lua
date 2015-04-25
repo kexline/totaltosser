@@ -1,7 +1,6 @@
 -- CS 371
 -- Final Project: Total Tosser
 -- Group members: Karen Exline, Cozette Napoles, and James Taylor
--- Approach:
 
 -----------------------------------Scene 3-----------------------------------
 local CollisionFilters = require ("CollisionFilters");
@@ -53,7 +52,7 @@ local numChildren = 10 -- Total number of children for the trash, laundry, & toy
 local tItems = 30 -- Total items generated
 local accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
 local accuracyN -- Display version of the player's accuracy
-local timeLeft = 65000 -- Amount of time left for this level
+local timeLeft = 85000 -- Amount of time left for this level
 local timeN -- Display version of the time left
 local t1 -- System time when the game begins
 
@@ -77,16 +76,15 @@ function scene:create(event)
     basket = Basket:new({xPos=ww*.85, yPos=210})
     basket:spawn()
 
-    toyBox = Box:new()
+    toyBox = Box:new({xPos=xx, yPos=210})
     toyBox:spawn()
 
-    ------ Background
-    -- local bg = display.newImage ("./images/bedroom_v.png", ".",0,0, 1);
-    -- bg.anchorX=0; bg.anchorY=0;
-    -- bg:scale(.72,.72);
-    -- bg:toBack();
-    -- sceneGroup:insert(bg);
-
+    -- Background
+    local bg = display.newImage ("./images/livingroom.png", ".",0,0);
+    bg.anchorX=0; bg.anchorY=0;
+    bg:scale(1.5,1.6);
+    bg:toBack();
+    sceneGroup:insert(bg);
 
     -- Score bar on top
     local topBar = display.newRect(0, 80, display.contentWidth,100)
@@ -199,7 +197,7 @@ function scene:show (event)
         end
 
         if (toyBox == nil) then
-            toyBox = Box:new()
+            toyBox = Box:new({xPos=xx, yPos=210})
             toyBox:spawn()
         end
 
@@ -254,8 +252,12 @@ function scene:show (event)
                 display.remove(toyBox.shape)
                 toyBox = nil
 
+                -- Remove the walls
+                walls:rmv()
+                walls = nil
+
                 -- Call the scene again
-                composer.gotoScene("scene3")
+                composer.gotoScene("victory")
 
             end
 
@@ -326,7 +328,11 @@ function scene:show (event)
                 display.remove(toyBox.shape)
                 toyBox = nil
 
-                --composer.gotoScene("scene4")
+                -- Remove the walls
+                walls:rmv()
+                walls = nil
+
+                composer.gotoScene("scene4")
             end
 
             ----------- Button to restart the level-------------

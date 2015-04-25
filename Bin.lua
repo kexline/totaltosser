@@ -1,7 +1,6 @@
 -- CS 371
 -- Final Project: Total Tosser
 -- Group members: Karen Exline, Cozette Napoles, and James Taylor
--- Approach:
 
 -----------------Bin Object - Parent object of Basket and Box----------------------------
 
@@ -50,7 +49,6 @@ function Bin:spawn()
 
 	physics.addBody(self.shape, "static", {filter=CollisionFilters.bin, 
 					shape = {-43,-50, 42,-50, 42,62, -43,62 }})
-
 
 	function removeItem(event)
 		-- Remove any trash, laundry, or toy that collides with this bin

@@ -1,7 +1,6 @@
 -- CS 371
 -- Final Project: Total Tosser
 -- Group members: Karen Exline, Cozette Napoles, and James Taylor
--- Approach:
 
 -----------------------------------Scene 1-----------------------------------
 
@@ -73,7 +72,7 @@ function scene:create(event)
 	local sceneGroup = self.view
 
 	-- Create container 
-	trashBin = Bin:new({xPos=100, yPos=200})
+	trashBin = Bin:new({xPos=300, yPos=200})
 	trashBin:spawn()
 
 	local bg = display.newImage ("./images/kitchen_v.png", ".",0,0, 1);
@@ -176,7 +175,7 @@ function scene:show (event)
 
 	-- Create container again if it was deleted.
 	if (trashBin == nil) then
-		trashBin = Bin:new({xPos=100, yPos=200})
+		trashBin = Bin:new({xPos=300, yPos=200})
 		trashBin:spawn()
 	end
 
@@ -232,6 +231,10 @@ function scene:show (event)
 
 				display.remove(btnNext);
 				btnNext=nil;
+
+				-- Remove the container
+				display.remove(trashBin.shape)
+				trashBin = nil
 
 				composer.gotoScene("scene1")
 

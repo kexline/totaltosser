@@ -1,7 +1,6 @@
 -- CS 371
 -- Final Project: Total Tosser
 -- Group members: Karen Exline, Cozette Napoles, and James Taylor
--- Approach:
 
 ---------------------Toy Items-------------------------------------------
 local Trash = require("Trash");
@@ -62,31 +61,38 @@ function Toy:spawn(xPos, yPos)
 
 			if (self.shape.markX ~= nil) then
 
-				local x = (event.x - event.xStart) + self.shape.markX;
+			local x = (event.x - event.xStart) + self.shape.markX;
 				local y = (event.y - event.yStart) + self.shape.markY;
 
 				self.shape.x = x;
 				self.shape.y = y;
+
+				if (event.y < midlineYPos) then
+					self.shape.score=0;
+				end
 			end
 			
 		elseif event.phase == "ended" or event.phase =="canceled" then
 			local x = (event.x - event.xStart);
 			local y = (event.y - event.yStart);
-			
-			print(event.xStart,event.x,event.yStart,event.y,self.shape.markX,self.shape.markY)
-			event.target:applyForce(x, y, event.target.x+20, event.target.y+20);
+
+			-- allow player to reposition the item behind the line if it winds up in front of it.
+			if self.shape.markY and (self.shape.markY < midlineYPos) then
+					if self.shape.y > midlineYPos then
+						self.shape.score=1;
+					end
+			else
+				--object:applyForce( xForce, yForce, bodyX, bodyY )
+			 	event.target:applyForce(x, y, event.target.x, event.target.y+1); 
+			 	-- event.target:applyForce(x, y, event.target.x+20, event.target.y+20); 
+
+			end
 
 			display.getCurrentStage():setFocus(nil)
-
-			if (event.y<900) then
-				self.shape.score=0;
-			end
 		end
 	end
 
-	if (event.y<midlineYPos) then
-		self.shape.score=0;
-	end
+
 
 	self.shape:addEventListener("touch", itemMove);
 end

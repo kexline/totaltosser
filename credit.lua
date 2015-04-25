@@ -59,12 +59,16 @@ Sun-il Kim
 William Edmonds
 Corona Labs
 Da Button Factory 
+Texture Packer
 
 Rooms inspired by 
 Flash Point Fire Rescue
 
-Other art provided by 
-spritersresource.com
+Throwable object art by
+Henrique Lazarini 
+
+Container art from
+clipartsfree.net
 
 ]]
 
