@@ -176,8 +176,11 @@ function scene:show (event)
 	timeLeft = lvlTime -- Amount of time left for this level (number is for
 					   -- testing purposes)
 
-	trashBin = Bin:new()
-	trashBin:spawn()
+		-- Create container again if it was deleted.
+		if (trashBin == nil) then
+			trashBin = Bin:new({xPos=100, yPos=200})
+			trashBin:spawn()
+		end
 
 	elseif (phase == "did") then
 
