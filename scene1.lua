@@ -214,91 +214,91 @@ function scene:show (event)
 
 		local function restart(event)
 
-				-- Remove display objects/text
-				display.remove(winBox)
-				winBox = nil
-				display.remove(winText1)
-				winText1 = nil
-				display.remove(winText2)
-				winText2 = nil
-				display.remove(winText3)
-				winText3 = nil
-				display.remove(btnAgain)
-				btnAgain = nil
+			-- Remove display objects/text
+			display.remove(winBox)
+			winBox = nil
+			display.remove(winText1)
+			winText1 = nil
+			display.remove(winText2)
+			winText2 = nil
+			display.remove(winText3)
+			winText3 = nil
+			display.remove(btnAgain)
+			btnAgain = nil
 
-				display.remove(btnNew);
-				btnNew=nil;
+			display.remove(btnNew);
+			btnNew=nil;
 
-				display.remove(btnNext);
-				btnNext=nil;
+			display.remove(btnNext);
+			btnNext=nil;
 
-				-- Remove the container
-				display.remove(trashBin.shape)
-				trashBin = nil
+			-- Remove the container
+			display.remove(trashBin.shape)
+			trashBin = nil
 
-				composer.gotoScene("scene1")
+			composer.gotoScene("scene1")
 
-			end
+		end
 
-			local function newGame()
-				-- Remove display objects/text
-				display.remove(winBox)
-				winBox = nil
-				display.remove(winText1)
-				winText1 = nil
-				display.remove(winText2)
-				winText2 = nil
-				display.remove(winText3)
-				winText3 = nil
-				display.remove(btnAgain)
-				btnAgain = nil
+		local function newGame()
+			-- Remove display objects/text
+			display.remove(winBox)
+			winBox = nil
+			display.remove(winText1)
+			winText1 = nil
+			display.remove(winText2)
+			winText2 = nil
+			display.remove(winText3)
+			winText3 = nil
+			display.remove(btnAgain)
+			btnAgain = nil
 
-				display.remove(btnNew);
-				btnNew=nil;
+			display.remove(btnNew);
+			btnNew=nil;
 
-				display.remove(btnNext);
-				btnNext=nil;
+			display.remove(btnNext);
+			btnNext=nil;
 
-				-- Remove the walls
-				walls:rmv()
-				walls = nil
+			-- Remove the walls
+			walls:rmv()
+			walls = nil
 
-				-- Remove the container
-				display.remove(trashBin.shape)
-				trashBin = nil
+			-- Remove the container
+			display.remove(trashBin.shape)
+			trashBin = nil
 
-				composer.gotoScene("welcome")
-			end
+			composer.gotoScene("welcome")
+		end
 
-			local function nextLevel()
-				-- Remove display objects/text
-				display.remove(winBox)
-				winBox = nil
-				display.remove(winText1)
-				winText1 = nil
-				display.remove(winText2)
-				winText2 = nil
-				display.remove(winText3)
-				winText3 = nil
-				display.remove(btnAgain)
-				btnAgain = nil
+		local function nextLevel()
+			-- Remove display objects/text
+			display.remove(winBox)
+			winBox = nil
+			display.remove(winText1)
+			winText1 = nil
+			display.remove(winText2)
+			winText2 = nil
+			display.remove(winText3)
+			winText3 = nil
+			display.remove(btnAgain)
+			btnAgain = nil
 
-				display.remove(btnNew);
-				btnNew=nil;
+			display.remove(btnNew);
+			btnNew=nil;
 
-				display.remove(btnNext);
-				btnNext=nil;
+			display.remove(btnNext);
+			btnNext=nil;
 
-				-- Remove the walls
-				walls:rmv()
-				walls = nil
+			-- Remove the walls
+			walls:rmv()
+			walls = nil
 
-				-- Remove the container
-				display.remove(trashBin.shape)
-				trashBin = nil
+			-- Remove the container
+			display.remove(trashBin.shape)
+			trashBin = nil
 
-				composer.gotoScene("scene2")
-			end
+			composer.gotoScene("scene2")
+		end
 
 			--------- Button to restart the level-------------
 			btnAgain = widget.newButton(

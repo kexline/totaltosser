@@ -182,7 +182,6 @@ function scene:show (event)
 		end
 
 
-
 		function createLaundry(i)
 			local laundry = Laundry:new();
 			local a = math.random(50, 670)
@@ -193,20 +192,6 @@ function scene:show (event)
 			sceneGroup:insert(laundry.shape);
 
 		end
-
-
-
-	--[[	function createToy(i)
-			local toy = Toy:new();
-			local a = math.random(50, 670)
-	        local b = math.random (950, 1150)
-			toy:spawn(a, b);
-			toyitems[i]=toy;
-		end
-
-		for i=0, 9 do
-			createToy(i);
-		end]]
 
 		tItems = 20 -- Total items generated
 		accuracy = 0 -- Player's accuracy (used in arithmetic, default is 0)
@@ -222,11 +207,12 @@ function scene:show (event)
 		if (basket == nil) then
 			basket = Basket:new({xPos=ww*.85, yPos=210})
 			basket:spawn()
-		endnew({xPos=ww*.8, yPos=210})
-	    basket:spawn()
+		end
 
-		--toyBox = Box:new()
-		--toyBox:spawn()
+		if (walls == nil) then
+			walls = Walls:new();
+			walls:spawn();
+		end
 
 	elseif (phase == "did") then
 
@@ -342,6 +328,10 @@ function scene:show (event)
 				display.remove(basket.shape)
 				basket = nil
 
+				-- Remove the walls
+				walls:rmv()
+				walls = nil
+
               	-- If scene1 already exists, destroy it
 				if (scene1 ~= nil) then
 					composer.removeScene("scene1")
@@ -350,50 +340,43 @@ function scene:show (event)
 				composer.gotoScene("scene3")
 			end
 
-			----------- Button to restart the level-------------
-			 btnAgain = widget.newButton(
-			 {
-			 	x = xx,
-			 	y = yy+100,
-			 	id = "restart",
-			 	label = "Restart",
-			 	labelColor = {default={0,0,0}, over={1,1,1}},
-			 	sheet = buttonSheet,
-			 	defaultFrame = 1,
-			 	overFrame = 2,
-			 	onEvent = restart,
-			 	}
-			 	)
+			--------- Button to restart the level-------------
+			btnAgain = widget.newButton(
+			{
+				x = xx,
+				y = yy,
+				id = "retry",
+				sheet = btnSheet,
+				defaultFrame = 11,
+				overFrame = 12,
+				onEvent = restart,
+				}
+				)
 
-			----------- Button to start the game over from Level 1-------------
-			 btnNew = widget.newButton(
-			 {
-			 	x = xx,
-			 	y = yy+50,
-			 	id = "new game",
-			 	label = "New Game",
-			 	labelColor = {default={0,0,0}, over={1,1,1}},
-			 	sheet = buttonSheet,
-			 	defaultFrame = 1,
-			 	overFrame = 2,
-			 	onEvent = newGame,
-			 	}
-			 	)
+			--------- Button to start the game over from Level 1-------------
+			btnNew = widget.newButton(
+			{
+				x = xx,
+				y = yy+80,
+				id = "home",
+				sheet = btnSheet,
+				defaultFrame = 7,
+				overFrame = 8,
+				onEvent = newGame,
+				}
+				)
 
-			 ----------- Button to go to next level-------------
+			----------- Button to go to next level-------------
 			 btnNext = widget.newButton(
 			 {
 			 	x = xx,
-			 	y = yy+100,
-			 	id = "level 3",
-			 	label = "Level 3",
-			 	labelColor = {default={0,0,0}, over={1,1,1}},
-			 	sheet = buttonSheet,
-			 	defaultFrame = 1,
-			 	overFrame = 2,
+			 	y = yy+160,
+			 	id = "level 2",
+			 	sheet = btnSheet,
+			 	defaultFrame = 9,
+			 	overFrame = 10,
 			 	onEvent = nextLevel,
-			 	}
-			 	)
+			 	})
 		end
 
 		-- gameOver: Called when the player runs out of time. Displays a message and
@@ -408,15 +391,9 @@ function scene:show (event)
 			local overText1 = display.newText("Game over!", xx, yy-185, native.systemFont, 35)
 			overText1:setFillColor(0,0,0)
 
-			-- if (timeLeft ~= 0) then
-				-- local overText2 = display.newText("You ran out of time.", xx, yy-100, native.systemFont, 30)
-				reason = reason or "Whoops.";
-				local overText2 = display.newText(reason, xx, yy-100, native.systemFont, 30)
-				overText2:setFillColor(0,0,0)
-			-- else 
-				-- local overText2 = display.newText("Accuracy less than 50%s", xx, yy-100, native.systemFont, 30)
-				-- overText2:setFillColor(0,0,0)
-			-- end
+			reason = reason or "Whoops.";
+			local overText2 = display.newText(reason, xx, yy-100, native.systemFont, 30)
+			overText2:setFillColor(0,0,0)
 
 			local overText3 = display.newText("Would you like to play again?", xx, yy-60, native.systemFont, 30)
 			overText3:setFillColor(0,0,0)
@@ -455,17 +432,14 @@ function scene:show (event)
 				--Call this scene again
 				composer.gotoScene("scene2")
 			end
-
+			
 			btnAgain = widget.newButton(
 			{
 			 	x = xx,
-			 	y = yy,
-			 	id = "try again",
-			 	label = "Try again",
-			 	labelColor = {default={0,0,0}, over={1,1,1}},
-			 	sheet = buttonSheet,
-			 	defaultFrame = 1,
-			 	overFrame = 2,
+			 	y = yy+100,
+			 	sheet = btnSheet,
+			 	defaultFrame = 11,
+			 	overFrame = 12,
 			 	onEvent = restart,
 			 	}
 				)

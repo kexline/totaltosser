@@ -38,7 +38,6 @@ local btnOptions = {
     { x = 322, y =85, width = 183, height = 68},  -- continue huge light
     { x = 0, y =156, width = 138, height = 70},  -- 11 Retry huge
     { x = 322, y =156, width = 138, height = 70},  -- Retry huge light
-
 }}
 
 local btnSheet = graphics.newImageSheet( "./images/btnSheet_l.png", btnOptions );
@@ -68,6 +67,19 @@ local toyBox -- Box object
 
 function scene:create(event)
     local sceneGroup = self.view
+    
+    -- Background
+    local bg = display.newImage ("./images/livingroom.png", ".",0,0);
+    bg.anchorX=0; bg.anchorY=0;
+    bg:scale(1.5,1.6);
+    bg:toBack();
+    sceneGroup:insert(bg);
+
+    -- Alpha layer to soften colors of temporary background
+    local bg2 = display.newRect(xx,yy,ww*1.1,hh*1.1)
+    bg2:setFillColor(.9,.8,.6,0.23);
+    bg2:toFront();
+    sceneGroup:insert(bg2);
 
     -- Create the containers
     trashBin = Bin:new({xPos=100, yPos=200})
@@ -79,16 +91,9 @@ function scene:create(event)
     toyBox = Box:new({xPos=xx, yPos=210})
     toyBox:spawn()
 
-    -- Background
-    local bg = display.newImage ("./images/livingroom.png", ".",0,0);
-    bg.anchorX=0; bg.anchorY=0;
-    bg:scale(1.5,1.6);
-    bg:toBack();
-    sceneGroup:insert(bg);
-
     -- Score bar on top
     local topBar = display.newRect(0, 80, display.contentWidth,100)
-    topBar:setFillColor(0.65, 0.65, 0.65)
+    topBar:setFillColor(0.72, 0.65, 0.55, .9)
     topBar:toBack()
     topBar.anchorX = 0; topBar.anchorY = 70
 
@@ -114,7 +119,7 @@ function scene:create(event)
 
     -- Score bar on bottom
     local botBar = display.newRect(0, 1300, display.contentWidth, 100)
-    botBar:setFillColor(0.65, 0.65, 0.65)
+    botBar:setFillColor(0.72, 0.65, 0.55)
     botBar:toBack()
     botBar.anchorX = 0; botBar.anchorY = 1300
 
@@ -169,7 +174,6 @@ function scene:show (event)
         laundry.shape:toFront();
         laundryitems[i]=laundry;
         sceneGroup:insert(laundry.shape);
-
     end
 
     function createToy(i)
@@ -199,6 +203,11 @@ function scene:show (event)
         if (toyBox == nil) then
             toyBox = Box:new({xPos=xx, yPos=210})
             toyBox:spawn()
+        end
+
+        if (walls == nil) then
+            walls = Walls:new();
+            walls:spawn();
         end
 
         -- Create ten of each item (trash, laundry, and toys)
@@ -257,14 +266,11 @@ function scene:show (event)
                 walls = nil
 
                 -- Call the scene again
-                composer.gotoScene("victory")
+                composer.gotoScene("scene4")
 
             end
 
             local function newGame() -- Goes back to welcome screen
-                -- Remove the walls
-                walls:rmv()
-                walls = nil
 
                 -- Remove display objects, text, and buttons
                 display.remove(winBox)
@@ -289,6 +295,10 @@ function scene:show (event)
                 basket = nil
                 display.remove(toyBox.shape)
                 toyBox = nil
+
+                -- Remove the walls
+                walls:rmv()
+                walls = nil
 
                 -- If scene1 already exists, destroy it
                 if (scene1 ~= nil) then
